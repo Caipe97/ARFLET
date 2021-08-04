@@ -7,6 +7,7 @@ import {Button as PaperButton} from 'react-native-paper';
 import { styles } from '../../../styles';
 
 
+/*
 function transportTypeIcon(transportType){
     switch (transportType){
         case 'mercaderia':
@@ -44,8 +45,8 @@ function transportTypeIcon(transportType){
 
     }
 }
-
-
+*/
+/*
 function getTransportTypes(transportTypes){ 
     var enabledTypes = [];
     var transportTypeKeys = Object.keys(transportTypes);
@@ -65,7 +66,7 @@ function getTransportTypes(transportTypes){
         )
     )
 }
-
+*/
 
 
 
@@ -124,12 +125,6 @@ export default function Profile(props){
                             <Icon name='truck' size={40} color='grey'/>
                         </View>
                         <Text id='idMakeText' style={{alignSelf: 'center', width: 200}}>{car}</Text>
-                    </View>
-                    <Text style={{ fontSize: 20}}>Tipos de transporte habilitados:</Text>
-                    <View>
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'}}>
-                            {getTransportTypes(profileData.transportTypes)}
-                        </View>
                     </View>
                     <PaperButton mode='contained' style={{width: '90%', marginTop:5}} onPress={()=>setPressedLogOut(true)}>CERRAR SESIÓN</PaperButton>
                 </View>

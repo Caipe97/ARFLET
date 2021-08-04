@@ -53,42 +53,12 @@ function getRegionForCoordinates(points) {
     }
 
 
-function transportTypeIcon(transportType){
-    switch (transportType){
-        case 'mercaderia':
-            return(
-                <View style={{borderRadius: 100, backgroundColor: 'orange', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
-                    <Image source={SEL_GOODS} style={{  width: 40, height: 40}}/>
-                </View>
-            );
-        case 'residuos':
-            return(
-                <View style={{borderRadius: 100, backgroundColor: 'green', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
-                    <Image source={SEL_RECYCLE} style={{ width: 40, height: 40}}/>
-                </View>
-            );
-        case 'mudanzas':
-            return(
-                <View style={{borderRadius: 100, backgroundColor: '#35524A', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
-                    <Image source={SEL_MOVING} style={{width: 40, height: 40}}/>
-                </View>
-            );
-
-        case 'construccion':
-            return(
-            <View style={{borderRadius: 100, backgroundColor: 'brown', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
-                <Image source={SEL_CONSTMAT} style={{width: 40, height: 40}}/>
-            </View>
-            );
-
-        case 'electrodomesticos':
-            return(
-            <View style={{borderRadius: 100, backgroundColor: '#35A7FF', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
-                <Image source={SEL_APPLIANCES} style={{width: 40, height: 40}}/>
-            </View>);
-
-
-    }
+function transportTypeIcon(transportType){ //Fijarse si podría incluirse otra característica en vez de transportTypes, suggestions son CANTIDAD DE PASAJEROS o TIPO DE VEHICULO
+    return(
+        <View style={{borderRadius: 100, backgroundColor: 'orange', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
+            <Image source={SEL_GOODS} style={{  width: 40, height: 40}}/>
+        </View>
+    );
 }
 
 
@@ -165,7 +135,7 @@ export default function TomarViaje(props){
         setSelectedElectro(!selectedElectro);
     }
 
-    function transportTypeIconMini(transportType){
+    /*function transportTypeIconMini(transportType){
         switch (transportType){
             case 'mercaderia':
                 return(
@@ -191,9 +161,9 @@ export default function TomarViaje(props){
     
     
         }
-    }
+    }*/
 
-    const getTransportTypes = (transportTypes) => { //Va a servir para generar los íconos de transportTypes a buscar.
+    const getTransportTypes = (transportTypes) => { //Va a servir para generar los íconos de transportTypes a buscar. NO me sirve mas
         console.log("doing")
         var enabledTypes = [];
         var transportTypeKeys = Object.keys(transportTypes);
@@ -206,12 +176,10 @@ export default function TomarViaje(props){
             return(<></>)
         }
         return (
-    
-            enabledTypes.map(type => (
-                transportTypeIconMini(type)
-                )
+            <></>
+            //enabledTypes.map(type => (transportTypeIconMini(type))
             )
-        )
+        
     }
     React.useEffect(()=>{
        getLocationUserForAddress('start');
@@ -262,7 +230,7 @@ export default function TomarViaje(props){
         ))
     }, [tripList])
 
-    const fetchTrips = async () => {
+    const fetchTrips = async () => { //Se lo envio a la API para que me devuelva los viajes que cumplen cierto criterio
         let userData = props.authentication.user.data;
         console.log(selectedStartAddress)
         console.log(selectedEndAddress)
@@ -429,7 +397,6 @@ export default function TomarViaje(props){
                 </View>
                 <View style={{flexDirection: 'row', flex:1, justifyContent:'center', width:'100%'}}>
                     <View style={{flexDirection: 'row', flex:1, justifyContent:'center', width:'40%'}}>
-                        {getTransportTypes(props.authentication.user.data.transportTypes)}
                     </View>
                     <Text style={{ alignSelf:'center', fontSize: 18, paddingLeft: 3}}>Radio:  </Text>
                     <View style={{ borderWidth: 1, borderColor: 'purple', borderRadius: 10, height: 30, marginTop: 6, marginRight: 5, justifyContent: 'center' }}>
@@ -465,7 +432,6 @@ export default function TomarViaje(props){
             </MapView>
             <Animated.View style={[styles.searchResultsHome, {bottom: searchResultsHeight}]}>
                 <FlatList 
-                    
                     data= {tripList}
                     contentContainerStyle={{borderRadius: 6}}
                     keyExtractor={(item) => item.idTrip + '_'}

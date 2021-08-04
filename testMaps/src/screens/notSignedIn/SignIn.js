@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function SignInScreen(props) {
 
-    const data = [ {label: 'Cliente', type: 'c'}, {label: 'Transportista', type: 't'} ]; //usado por los RadioButtons
+    const data = [ {label: 'Cliente (DRIVER)', type: 'c'}, {label: 'Transp (PASSENGER)', type: 't'} ]; //usado por los RadioButtons
     const [inputEmail, setInputEmail] = React.useState("admin@example.com");
     const [inputPassword, setInputPassword] = React.useState("1234");
     const [inputUserType, setInputUserType] = React.useState("t");
@@ -47,7 +47,7 @@ export default function SignInScreen(props) {
             <View style={{ width: '50%'}}>
               <RadioButtonRN
                 data={data}
-                boxStyle={{height: 40}}
+                boxStyle={{height: 50,}}
                 activeColor="#FFFFFF"
                 boxActiveBgColor="#35E94D"
                 selectedBtn={(e) => handleUserTypeChange(e)}

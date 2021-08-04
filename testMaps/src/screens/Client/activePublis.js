@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, FlatList, Modal, Animated, Alert, ScrollView, RefreshControl } from 'react-native';
 import { Card } from 'react-native-elements';
-import {Button as PaperButton} from 'react-native-paper';
-import { RatingStars } from '../../addons';
+//import {Button as PaperButton} from 'react-native-paper';
+//import { RatingStars } from '../../addons';
 import MapView, { Marker } from 'react-native-maps';
 import { styles } from '../../../styles';
 import { SEARCH_PLACEHOLDER, SEL_RECYCLE, SEL_GOODS, SEL_MOVING, SEL_CONSTMAT, SEL_APPLIANCES, PLUS_SIGN } from '../../images';
@@ -120,21 +120,6 @@ export default function ActivePublis(props){
     React.useEffect(()=>{
     getTripsFromApiAsync(props.authentication.user.data.id)
 
-    Animated.loop(
-        Animated.parallel([
-            Animated.timing(newPubliPulseSize, {
-                toValue: 120,
-                duration: 1500,
-                useNativeDriver: false
-            }),
-            Animated.timing(newPubliPulseOpacity, {
-                toValue: 0,
-                duration: 1500,
-                useNativeDriver: false
-            })
-        ])
-       
-    ).start()
 
 
     },[])

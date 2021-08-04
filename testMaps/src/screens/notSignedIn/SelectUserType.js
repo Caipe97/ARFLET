@@ -35,7 +35,7 @@ export default function PreSignInScreen(props)  {
               style={styles.preSignInLogo}
               source={ SPLASHUSERLOGO } 
             />
-            <Text style={{color: 'white'}}>Cliente</Text>
+            <Text style={{color: 'white'}}>Cliente (DRIVER)</Text>
           </SimpleCircleButton> 
           <SimpleCircleButton
             circleDiameter = {180}
@@ -46,7 +46,7 @@ export default function PreSignInScreen(props)  {
               style={styles.preSignInLogo}
               source={ SPLASHTRUCKLOGO } 
             />
-            <Text style={{color: 'white'}}>Transportista</Text>
+            <Text style={{color: 'white'}}>Transportista (PASSENGER)</Text>
           </SimpleCircleButton>
           
       </View>
