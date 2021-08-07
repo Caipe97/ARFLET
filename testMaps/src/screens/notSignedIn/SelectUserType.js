@@ -6,13 +6,30 @@ import { styles } from '../../../styles';
 import LinearGradient from 'react-native-linear-gradient';
 
 export default function PreSignInScreen(props)  {
-  const [signUpData, setSignUpData] = React.useState({userType: '', name: '', lastName: '', email: '', address:{address: '', coords: {lat: 0, lng:0}}, phone: 0, carId:'', transportTypes: {mercaderia: false, residuos: false, mudanzas: false, construccion: false, electrodomesticos: false}});
+  const [signUpData, setSignUpData] = React.useState({
+    userType: '',
+    name: '',
+    lastName: '',
+    email: '',
+    address:
+      {address: '',
+      coords: {lat: 0, lng:0}},
+      phone: 0,
+      carId:'',
+      transportTypes: 
+      {mercaderia: false,
+        residuos: false,
+        mudanzas: false,
+        construccion: false,
+        electrodomesticos: false
+      }
+    });
 
   function goClient(){
     setUserType('c');
     props.navigation.navigate('RegisterData', {signUpData});
-    
   }
+  
   function goTransport(){
     setUserType('t');
     props.navigation.navigate('RegisterData', {signUpData});
