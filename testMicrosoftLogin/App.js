@@ -16,6 +16,7 @@ const CLIENT_ID = '96a5ef16-fc07-4e8f-b4ba-48e139939d70' // replace the string w
 
 const azureAuth = new AzureAuth({
     clientId: CLIENT_ID,
+    authorityUrl: 'https://login.microsoftonline.com/49fed697-01ff-42d6-a5a3-6e65ba70d89e/oauth2/v2.0/'
   });
 
 export default class Auth0Sample extends Component {
@@ -26,7 +27,7 @@ export default class Auth0Sample extends Component {
 
   _onLogin = async () => {
     try {
-      let tokens = await azureAuth.webAuth.authorize({scope: 'openid profile User.Read' })
+      let tokens = await azureAuth.webAuth.authorize({scope: 'openid profile User.Read', prompt: 'login' })
       console.log('CRED>>>', tokens)
       this.setState({ accessToken: tokens.accessToken });
       let info = await azureAuth.auth.msGraphRequest({token: tokens.accessToken, path: 'me'})
@@ -62,13 +63,21 @@ export default class Auth0Sample extends Component {
   }
 
   _onLogout = () => {
+
+    azureAuth.auth.clearPersistenCache()
+    .then(success =>{
+      console.log('Logged out successfully!');
+      this.setState({ accessToken: null, user: null });
+    })
+/* Esto es lo que deberia suceder, pero me inmuto a solo desloguearme de la app. Espero un fix del autor de react-native-azure-auth
     azureAuth.webAuth
-      .clearSession({closeOnLoad: true})
+      .clearSession()
       .then(success => {
         this.setState({ accessToken: null, user: null });
         console.log('Logged out successfully!');
       })
       .catch(error => console.log(error));
+*/
   };
 
   render() {
