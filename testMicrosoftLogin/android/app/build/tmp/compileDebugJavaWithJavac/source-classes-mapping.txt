@@ -1,0 +1,14 @@
+com/testmicrosoftlogin/MainActivity.java
+ com.testmicrosoftlogin.MainActivity
+com/testmicrosoftlogin/BuildConfig.java
+ com.testmicrosoftlogin.BuildConfig
+com/testmicrosoftlogin/ReactNativeFlipper.java
+ com.testmicrosoftlogin.ReactNativeFlipper
+ com.testmicrosoftlogin.ReactNativeFlipper$1
+ com.testmicrosoftlogin.ReactNativeFlipper$2
+ com.testmicrosoftlogin.ReactNativeFlipper$2$1
+com/testmicrosoftlogin/MainApplication.java
+ com.testmicrosoftlogin.MainApplication
+ com.testmicrosoftlogin.MainApplication$1
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList

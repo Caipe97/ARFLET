@@ -1,0 +1,86 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.testmicrosoftlogin"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="29" />
+10
+11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+11-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/debug/AndroidManifest.xml:5:5-77
+11-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/debug/AndroidManifest.xml:5:22-75
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:4:5-67
+12-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:4:22-64
+13    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+13-->[com.facebook.flipper:flipper:0.75.1] /Users/manuel/.gradle/caches/transforms-2/files-2.1/a8f6015f96666ab8d93bfe5b64998bc8/jetified-flipper-0.75.1/AndroidManifest.xml:16:5-76
+13-->[com.facebook.flipper:flipper:0.75.1] /Users/manuel/.gradle/caches/transforms-2/files-2.1/a8f6015f96666ab8d93bfe5b64998bc8/jetified-flipper-0.75.1/AndroidManifest.xml:16:22-73
+14
+15    <application
+15-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:6:5-31:19
+16        android:name="com.testmicrosoftlogin.MainApplication"
+16-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:7:7-38
+17        android:allowBackup="false"
+17-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:11:7-34
+18        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+18-->[androidx.core:core:1.1.0] /Users/manuel/.gradle/caches/transforms-2/files-2.1/d67cd79abd1ca209502f51c69d23182b/core-1.1.0/AndroidManifest.xml:24:18-86
+19        android:debuggable="true"
+20        android:icon="@mipmap/ic_launcher"
+20-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:9:7-41
+21        android:label="@string/app_name"
+21-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:8:7-39
+22        android:roundIcon="@mipmap/ic_launcher_round"
+22-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:10:7-52
+23        android:theme="@style/AppTheme"
+23-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:12:7-38
+24        android:usesCleartextTraffic="true" >
+24-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/debug/AndroidManifest.xml:8:9-44
+25        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+25-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/debug/AndroidManifest.xml:11:9-86
+25-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/debug/AndroidManifest.xml:11:19-83
+26        <activity
+26-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:13:7-30:18
+27            android:name="com.testmicrosoftlogin.MainActivity"
+27-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:14:9-37
+28            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+28-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:16:9-86
+29            android:label="@string/app_name"
+29-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:15:9-41
+30            android:launchMode="singleTask"
+30-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:17:9-40
+31            android:windowSoftInputMode="adjustResize" >
+31-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:18:9-51
+32            <intent-filter>
+32-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:19:9-29:25
+33                <action android:name="android.intent.action.MAIN" />
+33-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:20:13-65
+33-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:20:21-62
+34                <action android:name="android.intent.action.VIEW" />
+34-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:21:13-65
+34-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:21:21-62
+35
+36                <category android:name="android.intent.category.DEFAULT" />
+36-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:22:13-72
+36-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:22:23-69
+37                <category android:name="android.intent.category.BROWSABLE" />
+37-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:23:13-74
+37-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:23:23-71
+38                <category android:name="android.intent.category.LAUNCHER" />
+38-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:24:13-73
+38-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:24:23-70
+39
+40                <data
+40-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:25:12-28:57
+41                    android:host="com.testmicrosoftlogin"
+41-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:26:15-52
+42                    android:pathPrefix="/android/callback"
+42-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:27:15-53
+43                    android:scheme="com.testmicrosoftlogin" />
+43-->/Users/manuel/ARFLET/testMicrosoftLogin/android/app/src/main/AndroidManifest.xml:28:15-54
+44            </intent-filter>
+45        </activity>
+46    </application>
+47
+48</manifest>

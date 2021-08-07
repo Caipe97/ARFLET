@@ -1,0 +1,14 @@
+com/testmaps/MainApplication.java
+ com.testmaps.MainApplication
+ com.testmaps.MainApplication$1
+com/testmaps/MainActivity.java
+ com.testmaps.MainActivity
+com/testmaps/BuildConfig.java
+ com.testmaps.BuildConfig
+com/testmaps/ReactNativeFlipper.java
+ com.testmaps.ReactNativeFlipper
+ com.testmaps.ReactNativeFlipper$1
+ com.testmaps.ReactNativeFlipper$2
+ com.testmaps.ReactNativeFlipper$2$1
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList

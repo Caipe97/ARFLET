@@ -1,0 +1,24 @@
+R_DEF: Internal format may change without notice
+local
+drawable overlay
+id ampm
+id container
+id date
+id day
+id empty_end
+id empty_start
+id hour
+id minutes
+id month
+id overlay_bottom
+id overlay_image
+id overlay_top
+id pickerWrapper
+id year
+layout ios_clone
+layout native_picker
+string app_name
+string overlay
+style android_native
+style android_native_small
+style android_native_theme
