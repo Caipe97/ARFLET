@@ -4,7 +4,9 @@ import { Card } from 'react-native-elements';
 import {Button as PaperButton} from 'react-native-paper';
 import { SEL_RECYCLE, SEL_GOODS, SEL_MOVING, SEL_CONSTMAT, SEL_APPLIANCES } from '../../images';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {TripProfile} from './activePublis'
+import {TripProfile} from './activePublis';
+import {API_URL} from '../../constants';
+
 
 function getRegionForCoordinates(points) {
     // points should be an array of { latitude: X, longitude: Y }
@@ -93,7 +95,7 @@ const getNotifsFromApiAsync = async ( id, userType ) => {
   setRefreshing(true)
     try {
       let response = await fetch(
-        'http://10.0.2.2:3000/api/users/getNotifs/' + userType + '/' + id
+        API_URL + 'api/users/getNotifs/' + userType + '/' + id
       );
       let json = await response.json()
       .then( json => {setNotificationList(json.data)} )
@@ -156,7 +158,7 @@ class NotificationListItem extends React.Component {
     async getTripsFromApiAsync( id ){
         try {
           let response = await fetch(
-            'http://10.0.2.2:3000/api/trips/fromidTrip/' + id
+            API_URL + 'api/trips/fromidTrip/' + id
           );
           let json = await response.json()
           .then( json => this.convertStringsToJSON(json.data)) //{this.setState(prevState => ({...prevState, associatedTrip: json.data}))}
@@ -175,7 +177,7 @@ class NotificationListItem extends React.Component {
         console.log("id is: "+id);
         try {
           let response = await fetch(
-            'http://10.0.2.2:3000/api/userParam/t/' + id
+            API_URL + 'api/userParam/t/' + id
           );
           let json = await response.json()
           .then(json => this.setState(prevState => ({...prevState, notificationName: json.data.name, notificationLastName: json.data.lastName})) ) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

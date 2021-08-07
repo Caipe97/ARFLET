@@ -3,6 +3,7 @@ import {View, Text, Alert} from 'react-native';
 import {Button as PaperButton, TextInput as PaperInput} from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { API_URL } from '../../constants';
 
 export default function RegisterData(props) {
 
@@ -35,7 +36,7 @@ export default function RegisterData(props) {
     const checkUserExists = async () => {
       try {
           console.log("Checking if user exists...");
-          let fetchRequest = 'http://10.0.2.2:3000/api/user/' + signUpData.userType + '/' + inputEmail ;
+          let fetchRequest = API_URL + 'api/user/' + signUpData.userType + '/' + inputEmail ;
         let response = await fetch( fetchRequest );
         let json = await response.json()
         .then( json => userExistsWatcher(json));

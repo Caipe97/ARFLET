@@ -3,7 +3,9 @@ import {View, Text, TouchableOpacity, Keyboard, Animated} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Button as PaperButton, TextInput as PaperInput} from 'react-native-paper';
 import NumberTextInput from 'rn-weblineindia-number-input';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { API_URL } from '../../../constants';
+
 import { styles } from '../../../../styles';
 
 
@@ -28,7 +30,7 @@ export default function PubliType(props){
     const sendTripToServer = async () => {
         try {
             console.log("Sending trip...");
-            let fetchRequest = 'http://10.0.2.2:3000/api/createTrip';
+            let fetchRequest = API_URL + 'api/createTrip';
           let response = await fetch( fetchRequest, {
               method: 'POST',
               headers: {

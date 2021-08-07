@@ -3,6 +3,7 @@ import {View, Text, Alert} from 'react-native';
 import {Button as PaperButton,} from 'react-native-paper';
 import {Picker} from '@react-native-picker/picker';
 import LinearGradient from 'react-native-linear-gradient';
+import {API_URL} from '../../../constants';
 
 
 
@@ -101,7 +102,7 @@ export default function SelectCar(props){
       const getMakesFromApiAsync = async () => {
         try {
           let response = await fetch(
-            'http://10.0.2.2:3000/api/cars'
+            API_URL + 'api/cars'
           );
           let json = await response.json()
           .then( json => setCarMakeList(json.data))
@@ -119,7 +120,7 @@ export default function SelectCar(props){
         try {
             console.log("Fetching MODELS...");
           let response = await fetch(
-            'http://10.0.2.2:3000/api/cars/' + selectedCarMake
+            API_URL + 'api/cars/' + selectedCarMake
           );
           let json = await response.json()
           .then( json => setCarModelList(json.data))
@@ -135,7 +136,7 @@ export default function SelectCar(props){
       const getYearsFromApiAsync = async () => {
         try {
           console.log("Fetching YEARS...");
-            let fetchRequest = 'http://10.0.2.2:3000/api/cars/' + selectedCarMake + '/' + selectedCarModel;
+            let fetchRequest = API_URL + 'api/cars/' + selectedCarMake + '/' + selectedCarModel;
           let response = await fetch( fetchRequest );
           let json = await response.json()
           .then( json => setCarYearList(json.data))
@@ -151,7 +152,7 @@ export default function SelectCar(props){
       const getCarIdFromApiAsync = async () => {
         try {
             console.log("Fetching CARID...");
-            let fetchRequest = 'http://10.0.2.2:3000/api/cars/' + selectedCarMake + '/' + selectedCarModel + '/' + selectedCarYear;
+            let fetchRequest = API_URL + 'api/cars/' + selectedCarMake + '/' + selectedCarModel + '/' + selectedCarYear;
           let response = await fetch( fetchRequest );
           let json = await response.json()
           .then( json => setSelectedCarId(json.data))

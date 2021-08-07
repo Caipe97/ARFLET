@@ -8,12 +8,13 @@ import {
     FETCHING_USER,
     FETCH_USER_SUCCESS,
     FETCH_USER_FAILURE,
+    API_URL,
 } from '../constants'
 
 export function fetchUser(){
     return (dispatch) => {
         dispatch(getUser());
-        return (fetch('http://10.0.2.2:3000/api/users'))
+        return (fetch(API_URL + 'api/users'))
         .then( res => res.json())
         .then( json => {
             return(dispatch(getUserSuccess(json)))
@@ -25,7 +26,7 @@ export function fetchUser(){
 export function loginUser(inputUserType, inputEmail, inputPassword){
     return(dispatch) => {
         dispatch(loggingUser());
-        return (fetch('http://10.0.2.2:3000/api/login', {
+        return (fetch(API_URL + 'api/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

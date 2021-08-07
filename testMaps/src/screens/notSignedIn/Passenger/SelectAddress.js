@@ -5,6 +5,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import Geocoder from 'react-native-geocoding';
 import LinearGradient from 'react-native-linear-gradient';
 import MapView, {Marker} from 'react-native-maps';
+import {API_URL} from '../../../constants';
 
 Geocoder.init("AIzaSyD2CxkX_56WjIzdYruMWqifM4xMtgOGpME"); //API Google
 
@@ -24,7 +25,7 @@ export default function SelectAddressScreen(props)  {
     const signUpUser = async () => {
         try {
             console.log("Checking if user exists...");
-            let fetchRequest = 'http://10.0.2.2:3000/api/signUp';
+            let fetchRequest = API_URL + 'api/signUp';
           let response = await fetch( fetchRequest, {
               method: 'POST',
               headers: {

@@ -2,8 +2,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from './src/configureStore';
-import ClientHome from './src/screens/Client/clientHomeScreen';
-import TransportHome from './src/screens/Transport/transportHomeScreen';
+import ClientHome from './src/screens/Driver/clientHomeScreen';
+import TransportHome from './src/screens/Passenger/transportHomeScreen';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,18 +13,18 @@ import * as reduxActionCreators from './src/actions/actions';
 
 //Para crear una cuenta
 import SelectUserType from './src/screens/notSignedIn/SelectUserType';
-import SelectCar from './src/screens/notSignedIn/Transport/SelectCar';
-import SelectAddress from './src/screens/notSignedIn/Transport/SelectAddress';
+import SelectCar from './src/screens/notSignedIn/Passenger/SelectCar';
+import SelectAddress from './src/screens/notSignedIn/Passenger/SelectAddress';
 import RegisterData from './src/screens/notSignedIn/RegisterData';
-import TestCamera from './src/screens/notSignedIn/Transport/testCamera';
-import ShipmentSelector from './src/screens/notSignedIn/Transport/ShipmentSelector';
+import TestCamera from './src/screens/notSignedIn/Passenger/testCamera';
+import ShipmentSelector from './src/screens/notSignedIn/Passenger/ShipmentSelector';
 import SignIn from './src/screens/notSignedIn/SignIn';
 
 //Para crear un viaje
-import TransportTypeSelector from './src/screens/Client/createTrip/TransportTypeSelector';
-import TitleDateDescription from './src/screens/Client/createTrip/TitleDateDescription';
-import TripSelectAddress from './src/screens/Client/createTrip/SelectAddress';
-import PubliType from './src/screens/Client/createTrip/PubliType';
+import TransportTypeSelector from './src/screens/Driver/createTrip/TransportTypeSelector';
+import TitleDateDescription from './src/screens/Driver/createTrip/TitleDateDescription';
+import TripSelectAddress from './src/screens/Driver/createTrip/SelectAddress';
+import PubliType from './src/screens/Driver/createTrip/PubliType';
 
 const store = configureStore();
 const Stack = createStackNavigator();

@@ -1,14 +1,12 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, FlatList, Modal, Animated, Alert, ScrollView, RefreshControl } from 'react-native';
 import { Card } from 'react-native-elements';
-//import {Button as PaperButton} from 'react-native-paper';
-//import { RatingStars } from '../../addons';
 import MapView, { Marker } from 'react-native-maps';
 import { styles } from '../../../styles';
-import { SEARCH_PLACEHOLDER, SEL_RECYCLE, SEL_GOODS, SEL_MOVING, SEL_CONSTMAT, SEL_APPLIANCES, PLUS_SIGN } from '../../images';
+import { SEL_RECYCLE, SEL_GOODS, SEL_MOVING, SEL_CONSTMAT, SEL_APPLIANCES, PLUS_SIGN } from '../../images';
 import LinearGradient from 'react-native-linear-gradient';
 import { Icon } from 'react-native-elements';
-import {SimpleCircleButton} from '../../SimpleCircleButton';
+import {API_URL} from '../../constants';
 
 function getRegionForCoordinates(points) {
     // points should be an array of { latitude: X, longitude: Y }
@@ -89,21 +87,19 @@ function transportTypeIcon(transportType){
 
 
 
-export default function ActivePublis(props){
+export default function History(props){
 
     const [isTripModalVisible, setTripModalVisible] = React.useState(false);
     const [tripModalContent, setTripModalContent] = React.useState('');
 
     const [tripHistoryList, setTripHistoryList] = React.useState([]);
     const [refreshing, setRefreshing] = React.useState(false);
-    const [newPubliPulseSize, setNewPubliPulseSize] = React.useState(new Animated.Value(80));
-    const [newPubliPulseOpacity, setNewPubliPulseOpacity] = React.useState(new Animated.Value(1));
 
     const getTripsFromApiAsync = async ( id ) => {
         setRefreshing(true);
         try {
           let response = await fetch(
-            'http://10.0.2.2:3000/api/trips/fromid/c/' + id + '/false'
+            API_URL + 'api/trips/fromid/t/' + id + '/true'
           );
           let json = await response.json()
           .then( json => {convertStringsToJSON(json.data)} )
@@ -115,15 +111,12 @@ export default function ActivePublis(props){
           console.error(error);
         }
       };
-    
+
 
     React.useEffect(()=>{
     getTripsFromApiAsync(props.authentication.user.data.id)
-
-
-
     },[])
-
+    
     function showTripModal(newval, content){
     setTripModalContent(content);
     setTripModalVisible(newval);
@@ -175,25 +168,11 @@ export default function ActivePublis(props){
 ]
     return(
         <View style={{width: '100%', height: '100%'}}>
-            <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: 'rgba(122,217,211,1)', width: '100%', elevation: 10}}>
-                <Text style={{ fontFamily: 'sans-serif-light', fontSize: 26}}>Publicaciones Activas</Text>
+            <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: '#8CA4A6', width: '100%', elevation: 10}}>
+                <Text style={{ fontFamily: 'sans-serif-light', fontSize: 26}}>Historial de Viajes</Text>
             </View>
-            <View style = {{position: 'absolute', zIndex: 10, bottom: 30, right: 30, elevation: 10, justifyContent: 'center'}}>
-                <SimpleCircleButton
-                    circleDiameter = {80}
-                    color = 'rgb(0,200,0)'
-                    style={{justifyContent: 'center', alignContent: 'center' }}
-                    onPress={() => props.navigation.navigate('TransportTypeSelector')}
-                >
-                     <Image source={PLUS_SIGN} style={{width: 15, height: 15}}/>
-                </SimpleCircleButton>
-                <Animated.View style={{width: newPubliPulseSize, height: newPubliPulseSize, position: 'absolute', alignSelf: 'center' ,backgroundColor: 'grey', zIndex: -1, borderRadius: 80, opacity: newPubliPulseOpacity}}>
-
-                </Animated.View>
-            </View>
-            
             <FlatList 
-                style={{flex:1, width: '100%', height:'100%', marginTop: 46}}
+                style={{flex:1, width: '100%', height:'100%', marginTop: 46, backgroundColor: '#F2F2F2'}}
                 data= {tripHistoryList}
                 keyExtractor={(item) => item.idTrip+''}
                 refreshControl={
@@ -201,9 +180,9 @@ export default function ActivePublis(props){
                   }
                 ListEmptyComponent={<View style={{flex:1, width: '100%', height:'100%', justifyContent: 'center', alignItems: 'center', paddingTop: 30}}><Text>No hay viajes!</Text></View>}
                 renderItem={({item}) => 
-                <Card >
-                    <Card.Title style={[{height: 20}]}>Viaje #{item.idTrip} - {item.title}</Card.Title>
-
+                <Card>
+                    <Card.Title style={{height: 20}}>Viaje #{item.idTrip} - {item.title}</Card.Title>
+                   
                         <View style={{flex: 1, flexDirection:'row', alignItems: 'center'}}>
                             <MapView
                                 liteMode={true}
@@ -227,12 +206,12 @@ export default function ActivePublis(props){
                                     <Text> Tipo: {capitalize(item.transportType)}</Text>
                                     <Text> Precio: ${item.bid}</Text>
                                 </View>
-                                <View style={[(item.accepted ? (item.dispatched ? (item.delivered ? {backgroundColor: '#870909'} : {backgroundColor: '#394052'}): {backgroundColor: '#995c02'}) : {backgroundColor: '#0f4000'}),{alignItems: 'center', width: 80, height: 60, borderRadius: 10, elevation: 3}]}>
+                                <View style={{ backgroundColor:'black',alignItems: 'center', width: 80, height: 60, borderRadius: 10}}>
                                     <TouchableOpacity 
                                     
-                                    style={[(item.accepted ? (item.dispatched ? (item.delivered ? {backgroundColor: 'red'} : {backgroundColor: '#606c88'}): {backgroundColor: 'orange'}) : {backgroundColor: 'green'}), {alignItems: 'center', width: 80, height: 57, borderRadius: 10, justifyContent: 'space-around'}]}
+                                    style={{backgroundColor: '#606c88', alignItems: 'center', width: 80, height: 57, borderRadius: 10, justifyContent: 'space-around'}}
                                      onPress={() => showTripModal(true, item)}>
-                                        <Text style={{fontSize: 16, color: 'white', textAlign: 'center'}}>{item.accepted ? (item.dispatched ? (item.delivered ? 'Entregado' : 'En viaje'): 'Por despachar') : 'Activa'}</Text>
+                                        <Text style={{fontSize: 16, color: 'white', textAlign: 'center'}}> Detalles </Text>
                                     </TouchableOpacity>
                                 </View>
                         </View>
@@ -243,7 +222,7 @@ export default function ActivePublis(props){
                 </Card>
             }
         >
-         </FlatList>
+         </FlatList >
          <Modal id="TransportProfileContainer" visible={isTripModalVisible}  animationType="slide" transparent={true} style={{alignItems: 'center', width: '100%'}}>
                     <TripProfile tripData={tripModalContent} fetchTrips={getTripsFromApiAsync} setTripModalVisible={setTripModalVisible} userId={props.authentication.user.data.id}></TripProfile>
          </Modal> 
@@ -269,11 +248,15 @@ export class TripProfile extends React.Component {
             checkBoxDisplay: 'none',
             setTripModalVisible: props.setTripModalVisible,
             fetchTrips: props.fetchTrips,
-            userId: props.userId
+            userId: props.userId,
+            transportName: 'Loading...',
+            transportLastName: 'Loading...'
             
         }
     }
-
+    componentDidMount() {
+        this.getTransportUserFromApiAsync(this.state.tripData.idTransport);
+      }
     render() {
         const itemTrip = this.state.tripData;
       return (
@@ -325,158 +308,28 @@ export class TripProfile extends React.Component {
             <Text style={{fontSize: 30, color: 'white', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>{itemTrip.isBid? 'Precio base ': 'Precio'}: ${this.state.tripData.bid}</Text>
             {/*De aca en adelante va el estado del envío! Hasta que se entrega...*/}
 
-            { itemTrip.accepted ?  this.getTripStatus() : this.getOffers() }
+            <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '100%', height: 200, borderRadius: 10, padding: 10, justifyContent: 'center'}}>
+                <Text style={{fontSize: 24, textAlign: 'center'}}>Entregaste el paquete en tiempo y forma. Recibiste ${itemTrip.bid} por el traslado.</Text>
+            </View>
             
         </LinearGradient>
       );
     }
-  getOffers(){
-      const itemTrip = this.state.tripData;
-    return(
-        <View>
-            <Text>{itemTrip.isBid ? 'Ofertas: ' : 'Solicitudes:'} </Text>
-            <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: 350, height: 200, borderRadius: 10, padding: 10}}>
-                <FlatList 
-                    style={{flex:1, width: '100%', height:'100%', borderRadius: 10}}
-                    data= {itemTrip.offers}
-                    keyExtractor={(item) => item.idTransport + '_' + item.bid}
-                    ListEmptyComponent={<View style={{flex:1, width: '100%', height:'100%', justifyContent: 'center', alignItems: 'center'}}><Text>No hay ofertas para este viaje!</Text></View>}
-                    renderItem={({item}) =>
-                    this.doOffersItem(item)}
-                />
-            </View>
-        </View>
-    )
-  }
 
-  doOffersItem(offerData){
-      return (
-        <View style={[styles.searchResultsItem, {alignSelf:'center', marginTop: 15}]}>
-            <TouchableOpacity style={styles.searchResultsItem} delayPressIn={0.4}>
-                <Image style={styles.searchResultsImage} source={SEARCH_PLACEHOLDER}/>
-                <View style={{flex: 1, height: '100%', justifyContent: 'space-evenly'}} >
-                    <View style={{flex:1, justifyContent: 'center',height: '60%', alignItems: 'center'}}>
-                        <Text>{offerData.name} {offerData.lastName}</Text>
-                    </View>
-                </View>
-                <TouchableOpacity 
-                style={{backgroundColor:'green',alignItems: 'center', width: '25%', height: '80%', marginRight: 7, borderRadius: 10, justifyContent: 'center'}} 
-                onPress = {() => Alert.alert(
-                    'Atención',
-                    '¿Acepta la solicitud? Se le avisará al transportista para que busque el pedido.',
-                    [
-                        {
-                            text: "Cancelar",
-                        },
-                        {
-                            text: "Aceptar!",
-                            onPress: () => this.sendTripAccepted (this.state.tripData.idTrip, offerData.idTransport, offerData.bid )//Envio un offer o request!Tengo que CERRAR VENTANA y REFRESCAR LISTA DE ITEMS (recargar la pagina)
-                        }
-                    ]
-                    )}
-                >
-                    <Text style={styles.textPrice}> {offerData.bid != -1 ? ('$' + offerData.bid) : 'Tomar'}</Text>
-                </TouchableOpacity>
-            </TouchableOpacity>
-            
-            
-        </View>
-      );
-  }
-
-  async sendTripAccepted(idTrip, idTransport, bid){
-    try {
-        let response = await fetch(
-          'http://10.0.2.2:3000/api/trips/assignToTransport/' + idTrip + '/' + idTransport + '/' + bid
-        );
-        let json = await response.json()
-        .then( Alert.alert('Se asignó al transportista para el viaje. ¡Esperá hasta que lo pase a buscar!') )
-        .then(this.state.setTripModalVisible(false))
-        .then(this.state.fetchTrips(this.state.userId))
-        
-      } catch (error) {
-        Alert.alert(
-          'Error',
-          'Cannot contact server',)
-        console.error(error);
-      }
-  }
-  async sendTripUpdate(idTrip, update){
-    try {
-        var replyText = '¡Se le avisó al transportista que recibiste el paquete!';
-
-        let response = await fetch(
-          'http://10.0.2.2:3000/api/trips/update/' + idTrip + '/' + update
+    async getTransportUserFromApiAsync( id ){
+        console.log("id is: "+id);
+        try {
+          let response = await fetch(
+            API_URL + 'api/userParam/t/' + id
           );
-        let json = await response.json()
-        .then( Alert.alert(
-            replyText
-            
-            ) )
-        .then(this.state.setTripModalVisible(false))
-        .then(this.state.fetchTrips(this.state.userId))
-        
-      } catch (error) {
-        Alert.alert(
-          'Error',
-          'Cannot contact server',)
-        console.error(error);
-      }
-  }
-
-  getTripStatus(){ //Para todo item, el botón debe CERRAR el Modal y refrescar los viajes...
-    const itemTrip = this.state.tripData;
-    if(itemTrip.accepted){
-        if(!itemTrip.dispatched){ //"El transportista está en camino a despachar tu paquete
-        return(
-            <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '100%', height: 200, borderRadius: 10, padding: 10, justifyContent: 'center'}}>
-                <Text style={{fontWeight: 'bold', fontSize: 20, textAlign:'center'}}>El transportista está en camino a despachar tu paquete! Esperá a que indique que lo haya despachado.</Text>
-            </View>
-        )
+          let json = await response.json()
+          .then(json => this.setState(prevState => ({...prevState, transportName: json.data.name, transportLastName: json.data.lastName})) ) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          
+        } catch (error) {
+          Alert.alert(
+            'Error',
+            'Cannot contact server',)
+          console.error(error);
         }
-        if(itemTrip.dispatched){
-            if(!itemTrip.delivered){//El transportista está en camino al destino.
-                return(
-                    <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '100%', height: 200, borderRadius: 10, padding: 10, justifyContent: 'center'}}>
-                        <Text style={{fontWeight: 'bold', fontSize: 20, textAlign:'center'}}>El transportista está en camino al destino. Esperá a que indique que lo haya entregado.</Text>
-                    </View>
-                )
-            }
-            if(itemTrip.delivered){
-                if(!itemTrip.completed){//El transportista indicó que entregó el envío. Avisanos cuando corrobores la entrega!
-                    return(
-                        <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '100%', height: 200, borderRadius: 10, padding: 10, justifyContent: 'center', alignItems: 'center'}}>
-                            <Text style={{fontWeight: 'bold', fontSize: 20, textAlign:'center'}}>El transportista indicó que el envío fue entregado. ¡Pulsá OK para corroborar la entrega!</Text>
-                            <TouchableOpacity 
-                               style={{backgroundColor:'green',alignItems: 'center', width: 200, height: 50, borderRadius: 10, justifyContent: 'center', marginTop: 10, elevation: 10}}
-                                onPress={() => Alert.alert(
-                                    'Atención',
-                                    'Pulsá Aceptar si recibiste el paquete.',
-                                    [
-                                        {
-                                            text: "Cancelar",
-                                        },
-                                        {
-                                            text: "Aceptar!",
-                                            onPress: () => this.sendTripUpdate(this.state.tripData.idTrip, 'completed' )
-                                        }
-                                    ]
-                                    )} >
-                                <Text style={{fontWeight: 'bold', fontSize: 14, textAlign:'center', color: 'white'}}>OK</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )
-                }
-                if(itemTrip.completed) {
-                    return(
-                        <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '100%', height: 200, borderRadius: 10, padding: 10}}>
-                            <Text>El paquete fue entregado correctamente!</Text>
-                        </View>
-                        )
-                }
-            }
-        }
-    }
-    
-  }
+      };
 }

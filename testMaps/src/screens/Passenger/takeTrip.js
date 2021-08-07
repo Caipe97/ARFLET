@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, Image, TouchableOpacity, FlatList, Modal, Animated, Alert, ScrollView} from 'react-native';
 import MapView, { Marker, Circle } from 'react-native-maps';
 import { styles } from '../../../styles';
+import {API_URL} from '../../constants';
 import { SEL_RECYCLE, SEL_GOODS, SEL_MOVING, SEL_CONSTMAT, SEL_APPLIANCES } from '../../images';
 import LinearGradient from 'react-native-linear-gradient';
 import {IconButton} from 'react-native-paper';
@@ -236,7 +237,7 @@ export default function TomarViaje(props){
         console.log(selectedEndAddress)
         try {
             console.log("Fetching trips...");
-            let fetchRequest = 'http://10.0.2.2:3000/api/trips/fetchTrips';
+            let fetchRequest = API_URL + 'api/trips/fetchTrips';
           let response = await fetch( fetchRequest, {
               method: 'POST',
               headers: {
@@ -526,7 +527,7 @@ class TransportProfile extends React.Component {
     async sendOfferRequest(offerData) {
         try {
             console.log("Sending Offer/Request...");
-            let fetchRequest = 'http://10.0.2.2:3000/api/trips/postOffer';
+            let fetchRequest = API_URL + 'api/trips/postOffer';
           let response = await fetch( fetchRequest, {
               method: 'POST',
               headers: {
