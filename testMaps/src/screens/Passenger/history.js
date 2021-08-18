@@ -7,45 +7,7 @@ import { SEL_RECYCLE, SEL_GOODS, SEL_MOVING, SEL_CONSTMAT, SEL_APPLIANCES, PLUS_
 import LinearGradient from 'react-native-linear-gradient';
 import { Icon } from 'react-native-elements';
 import {API_URL} from '../../constants';
-
-function getRegionForCoordinates(points) {
-    // points should be an array of { latitude: X, longitude: Y }
-    let minX, maxX, minY, maxY;
-  
-    // init first point
-    ((point) => {
-      minX = point.latitude;
-      maxX = point.latitude;
-      minY = point.longitude;
-      maxY = point.longitude;
-    })(points[0]);
-  
-    // calculate rect
-    points.map((point) => {
-      minX = Math.min(minX, point.latitude);
-      maxX = Math.max(maxX, point.latitude);
-      minY = Math.min(minY, point.longitude);
-      maxY = Math.max(maxY, point.longitude);
-    });
-  
-    const midX = (minX + maxX) / 2;
-    const midY = (minY + maxY) / 2;
-    const deltaX = (maxX - minX) + (maxX - minX)/2;
-    const deltaY = (maxY - minY) + (maxY - minY)/2;
-  
-    return {
-      latitude: midX,
-      longitude: midY,
-      latitudeDelta: deltaX,
-      longitudeDelta: deltaY
-    };
-  }
-
-
-  function capitalize(str){
-    return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
+import { getRegionForCoordinates, capitalize} from '../../atoms';
 
 function transportTypeIcon(transportType){
     switch (transportType){
@@ -80,8 +42,6 @@ function transportTypeIcon(transportType){
             <View style={{borderRadius: 100, backgroundColor: '#355A7FF', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={SEL_APPLIANCES} style={{width: 60, height: 60}}/>
             </View>);
-
-
     }
 }
 
