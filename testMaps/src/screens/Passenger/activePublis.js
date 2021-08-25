@@ -3,49 +3,14 @@ import { Text, View, Image, TouchableOpacity, FlatList, Modal, Animated, Alert, 
 import { Card } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
 import { styles } from '../../../styles';
-import { SEARCH_PLACEHOLDER, SEL_RECYCLE, SEL_GOODS, SEL_MOVING, SEL_CONSTMAT, SEL_APPLIANCES, PLUS_SIGN } from '../../images';
+import { SEARCH_PLACEHOLDER} from '../../images';
 import LinearGradient from 'react-native-linear-gradient';
 import { Icon } from 'react-native-elements';
 import { API_URL } from '../../constants';
 import { getRegionForCoordinates, capitalize } from '../../atoms';
+import transportTypeIcon from '../../components/transportTypeIcon';
+import CardItem from '../../components/cardItem';
 
-function transportTypeIcon(transportType){
-    switch (transportType){
-        case 'mercaderia':
-            return(
-                <View style={{borderRadius: 100, backgroundColor: 'orange', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
-                    <Image source={SEL_GOODS} style={{  width: 60, height: 60}}/>
-                </View>
-            );
-        case 'residuos':
-            return(
-                <View style={{borderRadius: 100, backgroundColor: 'green', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
-                    <Image source={SEL_RECYCLE} style={{ width: 60, height: 60}}/>
-                </View>
-            );
-        case 'mudanzas':
-            return(
-                <View style={{borderRadius: 100, backgroundColor: '#35524A', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
-                    <Image source={SEL_MOVING} style={{width: 60, height: 60}}/>
-                </View>
-            );
-
-        case 'construccion':
-            return(
-            <View style={{borderRadius: 100, backgroundColor: 'brown', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={SEL_CONSTMAT} style={{width: 60, height: 60}}/>
-            </View>
-            );
-
-        case 'electrodomesticos':
-            return(
-            <View style={{borderRadius: 100, backgroundColor: '#355A7FF', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={SEL_APPLIANCES} style={{width: 60, height: 60}}/>
-            </View>);
-
-
-    }
-}
 export default function ActivePublis(props){
 
     const [isTripModalVisible, setTripModalVisible] = React.useState(false);
@@ -316,16 +281,21 @@ export class TripProfile extends React.Component {
   async sendTripUpdate(idTrip, update){
     try {
         var replyText;
-
-        switch (update){
-            case 'dispatched':
-                replyText = 'Le avisamos al cliente que despachaste el envío.';
+        switch(props.authentication.user.data.carId){
+            case true: //Si es un transport
+                switch (update){
+                    case 'dispatched':
+                        replyText = 'Le avisamos al cliente que despachaste el envío.';
+                        break;
+                    case 'delivered':
+                        replyText = 'Le avisamos al cliente que entregaste el envío.'
+                        break;
+                    default:
+                        replyText ='Que estás queriendo hacer capo??'
+                }
                 break;
-            case 'delivered':
-                replyText = 'Le avisamos al cliente que entregaste el envío.'
-                break;
-            default:
-                replyText ='Que estás queriendo hacer capo??'
+            default: //Si es un Client
+                replyText = '¡Se le avisó al transportista que recibiste el paquete!';
         }
         let response = await fetch(
             API_URL + 'api/trips/update/' + idTrip + '/' + update

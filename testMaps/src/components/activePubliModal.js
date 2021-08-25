@@ -1,12 +1,13 @@
 import React from 'react';
-import { Text, View, Image, TouchableOpacity, FlatList, Animated, Alert, ScrollView } from 'react-native';
+import { Text, View, Image, TouchableOpacity, FlatList, Animated, Alert, ScrollView, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { styles } from '../../styles';
-import { SEARCH_PLACEHOLDER, SEL_RECYCLE, SEL_GOODS, SEL_MOVING, SEL_CONSTMAT, SEL_APPLIANCES } from '../images';
+import { SEARCH_PLACEHOLDER } from '../images';
 import LinearGradient from 'react-native-linear-gradient';
 import { Icon } from 'react-native-elements';
 import {API_URL} from '../constants';
 import { getRegionForCoordinates, capitalize } from '../atoms';
+import transportTypeIcon from './transportTypeIcon';
 
 export class ActiveTripProfile extends React.Component {
 
@@ -38,17 +39,19 @@ export class ActiveTripProfile extends React.Component {
             start={{ x: 0.5, y: 0.5}}
             style={styles.transportProfileWrapper} 
         >
-            <View style={{alignSelf: 'flex-end', right: 10, top: 10, position: 'absolute', zIndex: 10}}>
+            <View style={stylesLocal.closeBox}>
                         <TouchableOpacity onPress={() => this.state.setTripModalVisible(false)}>
                             <Icon name='close' type='material-community' size={40}></Icon>
                         </TouchableOpacity>
                     </View>
-            <Text numberOfLines={2} style={{fontFamily: 'sans-serif-medium', textAlign: 'center', fontSize: 30, color: 'white', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}, width: 305}}>{this.state.tripData.title}</Text>
-            <Text>Solicitado para: {this.state.tripData.dateExpected}. Creado: {this.state.tripData.dateCreated}</Text>
-            <View style={{flex: 1, width: '100%', alignItems: 'center',flexDirection: 'row', justifyContent: 'space-evenly'}}>
+            <Text numberOfLines={2} style={stylesLocal.tripTitle}>{this.state.tripData.title}</Text>
+            <Text>
+                Solicitado para: {this.state.tripData.dateExpected}. Creado: {this.state.tripData.dateCreated}
+            </Text>
+            <View style={stylesLocal.mapViewContainer}>
                 <MapView
                     liteMode={true}
-                    style={{width:250, height: 150}}
+                    style={stylesLocal.mapView}
                     region={getRegionForCoordinates([{latitude:itemTrip.startAddress.coords.lat,longitude:itemTrip.startAddress.coords.lng}, {latitude:itemTrip.endAddress.coords.lat,longitude:itemTrip.endAddress.coords.lng}])}
                 >
                     <Marker
@@ -61,23 +64,29 @@ export class ActiveTripProfile extends React.Component {
                         identifier="mk2"
                     ></Marker>
                 </MapView>
-                <View style={{alignContent: 'center', paddingLeft: 10}}>
+                <View style={stylesLocal.transportContainer}>
                     {transportTypeIcon(itemTrip.transportType)}
                     <Text style={{textAlign: 'center'}}>{capitalize(itemTrip.transportType)}</Text>
                 </View>
 
             </View>
-            <Text style={{fontFamily: 'sans-serif-medium', fontSize: 16, color: 'white', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Desde: {this.state.tripData.startAddress.address} {'\r\n'}Hasta: {this.state.tripData.endAddress.address}</Text>
-
-            <Text style={{width: '100%'}}>Descripción:</Text>
-            <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '100%', height: 80, borderRadius: 10, padding: 10}}>
+            <Text style={stylesLocal.fromToText}>
+                Desde: {this.state.tripData.startAddress.address} {'\r\n'}
+                Hasta: {this.state.tripData.endAddress.address}
+            </Text>
+            <Text style={{width: '100%'}}>
+                Descripción:
+            </Text>
+            <View style={stylesLocal.descriptionContainer}>
                 <ScrollView>
                     <Text>{itemTrip.description}</Text>
                 </ScrollView>
                 
             </View>
             
-            <Text style={{fontSize: 30, color: 'white', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>{itemTrip.isBid? 'Precio base ': 'Precio'}: ${this.state.tripData.bid}</Text>
+            <Text style={stylesLocal.bidContainer}>
+                {itemTrip.isBid? 'Precio base ': 'Precio'}: ${this.state.tripData.bid}
+            </Text>
             {/*De aca en adelante va el estado del envío! Hasta que se entrega...*/}
 
             { itemTrip.accepted ?  this.getTripStatus() : this.getOffers() }
@@ -95,7 +104,12 @@ export class ActiveTripProfile extends React.Component {
                     style={{flex:1, width: '100%', height:'100%', borderRadius: 10}}
                     data= {itemTrip.offers}
                     keyExtractor={(item) => item.idTransport + '_' + item.bid}
-                    ListEmptyComponent={<View style={{flex:1, width: '100%', height:'100%', justifyContent: 'center', alignItems: 'center'}}><Text>No hay ofertas para este viaje!</Text></View>}
+                    ListEmptyComponent={
+                        <View style={{flex:1, width: '100%', height:'100%', justifyContent: 'center', alignItems: 'center'}}>
+                            <Text>
+                                No hay ofertas para este viaje!
+                            </Text>
+                        </View>}
                     renderItem={({item}) =>
                     this.doOffersItem(item)}
                 />
@@ -130,7 +144,9 @@ export class ActiveTripProfile extends React.Component {
                     ]
                     )}
                 >
-                    <Text style={styles.textPrice}> {offerData.bid != -1 ? ('$' + offerData.bid) : 'Tomar'}</Text>
+                    <Text style={styles.textPrice}> 
+                        {offerData.bid != -1 ? ('$' + offerData.bid) : 'Tomar'}
+                    </Text>
                 </TouchableOpacity>
             </TouchableOpacity>
             
@@ -158,8 +174,23 @@ export class ActiveTripProfile extends React.Component {
   }
   async sendTripUpdate(idTrip, update){
     try {
-        var replyText = '¡Se le avisó al transportista que recibiste el paquete!';
-
+        var replyText;
+        switch(props.authentication.user.data.carId){
+            case true: //Si es un transport
+                switch (update){
+                    case 'dispatched':
+                        replyText = 'Le avisamos al cliente que despachaste el envío.';
+                        break;
+                    case 'delivered':
+                        replyText = 'Le avisamos al cliente que entregaste el envío.'
+                        break;
+                    default:
+                        replyText ='Que estás queriendo hacer capo??'
+                }
+                break;
+            default: //Si es un Client
+                replyText = '¡Se le avisó al transportista que recibiste el paquete!';
+        }
         let response = await fetch(
             API_URL + 'api/trips/update/' + idTrip + '/' + update
           );
@@ -184,24 +215,30 @@ export class ActiveTripProfile extends React.Component {
     if(itemTrip.accepted){
         if(!itemTrip.dispatched){ //"El transportista está en camino a despachar tu paquete
         return(
-            <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '100%', height: 200, borderRadius: 10, padding: 10, justifyContent: 'center'}}>
-                <Text style={{fontWeight: 'bold', fontSize: 20, textAlign:'center'}}>El transportista está en camino a despachar tu paquete! Esperá a que indique que lo haya despachado.</Text>
+            <View style={stylesLocal.statusTextContainer}>
+                <Text style={stylesLocal.statusText}>
+                    El transportista está en camino a despachar tu paquete! Esperá a que indique que lo haya despachado.
+                </Text>
             </View>
         )
         }
         if(itemTrip.dispatched){
             if(!itemTrip.delivered){//El transportista está en camino al destino.
                 return(
-                    <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '100%', height: 200, borderRadius: 10, padding: 10, justifyContent: 'center'}}>
-                        <Text style={{fontWeight: 'bold', fontSize: 20, textAlign:'center'}}>El transportista está en camino al destino. Esperá a que indique que lo haya entregado.</Text>
+                    <View style={stylesLocal.statusTextContainer}>
+                        <Text style={stylesLocal.statusText}>
+                            El transportista está en camino al destino. Esperá a que indique que lo haya entregado.
+                        </Text>
                     </View>
                 )
             }
             if(itemTrip.delivered){
                 if(!itemTrip.completed){//El transportista indicó que entregó el envío. Avisanos cuando corrobores la entrega!
                     return(
-                        <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '100%', height: 200, borderRadius: 10, padding: 10, justifyContent: 'center', alignItems: 'center'}}>
-                            <Text style={{fontWeight: 'bold', fontSize: 20, textAlign:'center'}}>El transportista indicó que el envío fue entregado. ¡Pulsá OK para corroborar la entrega!</Text>
+                        <View style={stylesLocal.statusTextContainer}>
+                            <Text style={stylesLocal.statusText}>
+                                El transportista indicó que el envío fue entregado. ¡Pulsá OK para corroborar la entrega!
+                            </Text>
                             <TouchableOpacity 
                                style={{backgroundColor:'green',alignItems: 'center', width: 200, height: 50, borderRadius: 10, justifyContent: 'center', marginTop: 10, elevation: 10}}
                                 onPress={() => Alert.alert(
@@ -224,7 +261,7 @@ export class ActiveTripProfile extends React.Component {
                 }
                 if(itemTrip.completed) {
                     return(
-                        <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '100%', height: 200, borderRadius: 10, padding: 10}}>
+                        <View style={stylesLocal.statusTextContainer}>
                             <Text>El paquete fue entregado correctamente!</Text>
                         </View>
                         )
@@ -236,40 +273,70 @@ export class ActiveTripProfile extends React.Component {
   }
 }
 
-function transportTypeIcon(transportType){
-    switch (transportType){
-        case 'mercaderia':
-            return(
-                <View style={{borderRadius: 100, backgroundColor: 'orange', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
-                    <Image source={SEL_GOODS} style={{  width: 60, height: 60}}/>
-                </View>
-            );
-        case 'residuos':
-            return(
-                <View style={{borderRadius: 100, backgroundColor: 'green', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
-                    <Image source={SEL_RECYCLE} style={{ width: 60, height: 60}}/>
-                </View>
-            );
-        case 'mudanzas':
-            return(
-                <View style={{borderRadius: 100, backgroundColor: '#35524A', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
-                    <Image source={SEL_MOVING} style={{width: 60, height: 60}}/>
-                </View>
-            );
-
-        case 'construccion':
-            return(
-            <View style={{borderRadius: 100, backgroundColor: 'brown', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={SEL_CONSTMAT} style={{width: 60, height: 60}}/>
-            </View>
-            );
-
-        case 'electrodomesticos':
-            return(
-            <View style={{borderRadius: 100, backgroundColor: '#355A7FF', width: 80, height: 80, justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={SEL_APPLIANCES} style={{width: 60, height: 60}}/>
-            </View>);
-
-
-    }
-}
+const stylesLocal = StyleSheet.create({
+    closeBox: {
+        alignSelf: 'flex-end',
+        right: 10,
+        top: 10,
+        position: 'absolute',
+        zIndex: 10,
+    },
+    tripTitle: {
+        fontFamily: 'sans-serif-medium',
+        textAlign: 'center',
+        fontSize: 30,
+        color: 'white',
+        textShadowRadius: 20,
+        textShadowOffset: {width: 0, height: 2},
+        width: 305,
+    },
+    mapViewContainer: {
+        flex: 1,
+        width: '100%',
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+    },
+    mapView: {
+        width:250,
+        height: 150,
+    },
+    transportContainer: {
+        alignContent: 'center',
+        paddingLeft: 10,
+    },
+    fromToText: {
+        fontFamily: 'sans-serif-medium',
+        fontSize: 16,
+        color: 'white',
+        textShadowRadius: 20,
+        textShadowOffset: {width: 0, height: 2},
+    },
+    descriptionContainer: {
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        width: '100%',
+        height: 80,
+        borderRadius: 10,
+        padding: 10
+    },
+    bidContainer: {
+        fontSize: 30,
+        color: 'white',
+        textShadowRadius: 20,
+        textShadowOffset: {width: 0, height: 2},
+    
+    },
+    statusTextContainer: {
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        width: '100%',
+        height: 200,
+        borderRadius: 10,
+        padding: 10,
+        justifyContent: 'center',
+    },
+    statusText: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        textAlign:'center'
+    },
+  });
