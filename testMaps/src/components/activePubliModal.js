@@ -7,7 +7,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Icon } from 'react-native-elements';
 import {API_URL} from '../constants';
 import { getRegionForCoordinates, capitalize } from '../atoms';
-import transportTypeIcon from './transportTypeIcon';
 
 export class ActiveTripProfile extends React.Component {
 
@@ -39,15 +38,13 @@ export class ActiveTripProfile extends React.Component {
             start={{ x: 0.5, y: 0.5}}
             style={styles.transportProfileWrapper} 
         >
+        
             <View style={stylesLocal.closeBox}>
-                        <TouchableOpacity onPress={() => this.state.setTripModalVisible(false)}>
-                            <Icon name='close' type='material-community' size={40}></Icon>
-                        </TouchableOpacity>
-                    </View>
-            <Text numberOfLines={2} style={stylesLocal.tripTitle}>{this.state.tripData.title}</Text>
-            <Text>
-                Solicitado para: {this.state.tripData.dateExpected}. Creado: {this.state.tripData.dateCreated}
-            </Text>
+                <TouchableOpacity onPress={() => this.state.setTripModalVisible(false)}>
+                    <Icon name='close' type='material-community' size={40}></Icon>
+                </TouchableOpacity>
+            </View>
+            <ScrollView contentContainerStyle={stylesLocal.transportProfileWrapper}>
             <View style={stylesLocal.mapViewContainer}>
                 <MapView
                     liteMode={true}
@@ -64,13 +61,14 @@ export class ActiveTripProfile extends React.Component {
                         identifier="mk2"
                     ></Marker>
                 </MapView>
-                <View style={stylesLocal.transportContainer}>
-                    {transportTypeIcon(itemTrip.transportType)}
-                    <Text style={{textAlign: 'center'}}>{capitalize(itemTrip.transportType)}</Text>
-                </View>
 
             </View>
+            <Text numberOfLines={1} style={stylesLocal.tripTitle}>{this.state.tripData.title}</Text>
+            <Text>
+                Solicitado para: {this.state.tripData.dateExpected}. Creado: {this.state.tripData.dateCreated}
+            </Text>
             <Text style={stylesLocal.fromToText}>
+                <Emoji name="coffee" style={{fontSize: 50}} />
                 Desde: {this.state.tripData.startAddress.address} {'\r\n'}
                 Hasta: {this.state.tripData.endAddress.address}
             </Text>
@@ -89,8 +87,8 @@ export class ActiveTripProfile extends React.Component {
             </Text>
             {/*De aca en adelante va el estado del envío! Hasta que se entrega...*/}
 
-            { itemTrip.accepted ?  this.getTripStatus() : this.getOffers() }
-            
+            { itemTrip.accepted ?  this.getTripStatus() : this.getOffersSV() }
+        </ScrollView>
         </LinearGradient>
       );
     }
@@ -98,7 +96,7 @@ export class ActiveTripProfile extends React.Component {
       const itemTrip = this.state.tripData;
     return(
         <View>
-            <Text>{itemTrip.isBid ? 'Ofertas: ' : 'Solicitudes:'} </Text>
+            <Text>{itemTrip.isBid ? 'Ofertas: ' : 'Solicitudes de Pasajeros:'} </Text>
             <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: 350, height: 200, borderRadius: 10, padding: 10}}>
                 <FlatList 
                     style={{flex:1, width: '100%', height:'100%', borderRadius: 10}}
@@ -116,6 +114,25 @@ export class ActiveTripProfile extends React.Component {
             </View>
         </View>
     )
+  }
+
+  getOffersSV(){
+      const itemTrip = this.state.tripData;
+      const offersData = [];
+
+      itemTrip.offers.map((offer) =>{
+          offersData.push(this.doOffersItem(offer))
+      })
+      return(
+        <View>
+            <Text>{itemTrip.isBid ? 'Ofertas: ' : 'Solicitudes de Pasajeros:'} </Text>
+            <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: 350, height: 200, borderRadius: 10, padding: 10}}>
+                <ScrollView nestedScrollEnabled={true}>
+                    {offersData}
+                </ScrollView>
+            </View>
+        </View>
+      )
   }
 
   doOffersItem(offerData){
@@ -296,10 +313,13 @@ const stylesLocal = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        overflow: 'hidden',
     },
     mapView: {
-        width:250,
-        height: 150,
+        width:'100%',
+        height: 200,
     },
     transportContainer: {
         alignContent: 'center',
@@ -338,5 +358,14 @@ const stylesLocal = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
         textAlign:'center'
+    },
+    transportProfileWrapper: {
+        alignSelf: 'center',
+        borderRadius: 0,
+        width: '100%',
+        height: '100%',
+        //backgroundColor: 'red',
+        alignItems: 'center',
+
     },
   });

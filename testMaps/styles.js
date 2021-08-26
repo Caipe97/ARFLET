@@ -11,8 +11,9 @@ const styles = StyleSheet.create({
             //flex:1,
         },
         mainAppLogo : {
-            width: 200,
-            height: 200,
+            width: '80%',
+            height: '20%',
+            resizeMode: 'contain'
         },
         loginInputBox : {
             width: '100%',
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
             height: '95%',
             marginVertical: '5%',
             backgroundColor: 'red',
-            padding: 10,
+            padding: 0,
             alignItems: 'center',
             elevation: 10,
 

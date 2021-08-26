@@ -1,6 +1,6 @@
 export const SPLASHUSERLOGO = require('./icon-user.png');
 export const SPLASHTRUCKLOGO = require('./icon-truck.png');
-export const MAINLOGO = require('./logo.png'); 
+export const MAINLOGO = require('./logo_large.png'); 
 export const SEARCHBARICON = require('./icon-search-bar.png'); 
 export const SEARCH_PLACEHOLDER = require('./icon-search-result-placeholder.png');
 export const STAR_FULL = require('./star-full.png');

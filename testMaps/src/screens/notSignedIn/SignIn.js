@@ -4,6 +4,7 @@ import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import RadioButtonRN from 'radio-buttons-react-native';
 import {Button as PaperButton, TextInput as PaperInput} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {MAINLOGO} from '../../images';
 
 
 export default function SignInScreen(props) {
@@ -42,7 +43,7 @@ export default function SignInScreen(props) {
             
             <Image
                 style={styles.mainAppLogo}
-                source={require('../../images/logo.png')}
+                source={MAINLOGO}
             />
             <View style={{ width: '50%'}}>
               <RadioButtonRN
