@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
             marginHorizontal: 8,
         },
         textPrice: {
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: 'bold',
             color:'white',
             paddingRight: 4,

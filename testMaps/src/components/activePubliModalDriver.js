@@ -7,6 +7,32 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Icon } from 'react-native-elements';
 import {API_URL} from '../constants';
 import { getRegionForCoordinates, capitalize } from '../atoms';
+import  Emoji  from 'react-native-emoji';
+import {Button as PaperButton} from 'react-native-paper';
+
+
+const pasajerosAnotadosExample = {
+    tripId: 23,
+    maxPassengers: 4,
+    passengerData: [
+        {
+            id: 1,
+            name: 'Picukpo',
+            profilePic: 'un profilePic'
+        },
+        {
+            id: 2,
+            name: 'manucrespo97',
+            profilePic: 'un profilePic'
+        },
+        {
+            id: 3,
+            name: 'Camilo pluscuamperfecto',
+            profilePic: 'un profilePic'
+        }
+    ]
+}
+
 
 export class ActiveTripProfile extends React.Component {
 
@@ -36,7 +62,7 @@ export class ActiveTripProfile extends React.Component {
         <LinearGradient
             colors={itemTrip.accepted? (itemTrip.dispatched ? (itemTrip.delivered ? ['#add100', '#7b920a'] : ['#606c88','#3f4c6b'] ) :['#ffc500', '#ff9900']) :['rgba(122,217,211,1)', 'rgba(0,212,255,1)']}
             start={{ x: 0.5, y: 0.5}}
-            style={styles.transportProfileWrapper} 
+            style={stylesLocal.transportProfileWrapper} 
         >
         
             <View style={stylesLocal.closeBox}>
@@ -44,7 +70,6 @@ export class ActiveTripProfile extends React.Component {
                     <Icon name='close' type='material-community' size={40}></Icon>
                 </TouchableOpacity>
             </View>
-            <ScrollView contentContainerStyle={stylesLocal.transportProfileWrapper}>
             <View style={stylesLocal.mapViewContainer}>
                 <MapView
                     liteMode={true}
@@ -63,16 +88,28 @@ export class ActiveTripProfile extends React.Component {
                 </MapView>
 
             </View>
+            <ScrollView contentContainerStyle={stylesLocal.SVProfileWrapper}>
+            
             <Text numberOfLines={1} style={stylesLocal.tripTitle}>{this.state.tripData.title}</Text>
             <Text>
-                Solicitado para: {this.state.tripData.dateExpected}. Creado: {this.state.tripData.dateCreated}
+                 Creado: {this.state.tripData.dateCreated}
             </Text>
-            <Text style={stylesLocal.fromToText}>
-                <Emoji name="coffee" style={{fontSize: 50}} />
-                Desde: {this.state.tripData.startAddress.address} {'\r\n'}
-                Hasta: {this.state.tripData.endAddress.address}
-            </Text>
-            <Text style={{width: '100%'}}>
+            <View id='TextContainer'>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Emoji name="stopwatch" style={{fontSize: 22}} />
+                    <Text style={stylesLocal.fromToText}>{this.state.tripData.dateExpected}</Text>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Emoji name="triangular_flag_on_post" style={{fontSize: 22}} />
+                    <Text style={stylesLocal.fromToText}>{this.state.tripData.startAddress.address}</Text>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Emoji name="checkered_flag" style={{fontSize: 22}} />
+                    <Text style={stylesLocal.fromToText}>{this.state.tripData.endAddress.address}</Text>
+                </View>   
+            </View>
+
+            <Text style={{width: '100%', alignSelf:'flex-start', marginTop: 15}}>
                 Descripción:
             </Text>
             <View style={stylesLocal.descriptionContainer}>
@@ -81,13 +118,35 @@ export class ActiveTripProfile extends React.Component {
                 </ScrollView>
                 
             </View>
-            
-            <Text style={stylesLocal.bidContainer}>
-                {itemTrip.isBid? 'Precio base ': 'Precio'}: ${this.state.tripData.bid}
+            <Text style={{width: '100%', alignSelf:'flex-start', marginTop: 10}}>
+                Pasajeros anotados:
             </Text>
+            <BoardingPassengers data={pasajerosAnotadosExample} />
+
+            
+            {/*<Text style={stylesLocal.bidContainer}>
+                {itemTrip.isBid? 'Precio base ': 'Precio'}: ${this.state.tripData.bid}
+      </Text>*/}
             {/*De aca en adelante va el estado del envío! Hasta que se entrega...*/}
 
             { itemTrip.accepted ?  this.getTripStatus() : this.getOffersSV() }
+            <PaperButton icon="trash-can" mode="contained" 
+               onPress = {() => Alert.alert(
+                'Atención',
+                '¿Desea quitar la publicación? IMPLEMENTAR.',
+                [
+                    {
+                        text: "Cancelar",
+                    },
+                    {
+                        text: "Aceptar",
+                        onPress: () => console.log('Implementar!')
+                    }
+                ]
+                )} 
+                style={{margin: 20, height: 40, justifyContent: 'center'}}>
+                Eliminar publicación
+              </PaperButton>
         </ScrollView>
         </LinearGradient>
       );
@@ -97,7 +156,7 @@ export class ActiveTripProfile extends React.Component {
     return(
         <View>
             <Text>{itemTrip.isBid ? 'Ofertas: ' : 'Solicitudes de Pasajeros:'} </Text>
-            <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: 350, height: 200, borderRadius: 10, padding: 10}}>
+            <View style={{backgroundColor: 'rgba(255,255,255,0.7)', width: '10%', height: 200, borderRadius: 10, padding: 10}}>
                 <FlatList 
                     style={{flex:1, width: '100%', height:'100%', borderRadius: 10}}
                     data= {itemTrip.offers}
@@ -145,26 +204,48 @@ export class ActiveTripProfile extends React.Component {
                         <Text>{offerData.name} {offerData.lastName}</Text>
                     </View>
                 </View>
-                <TouchableOpacity 
-                style={{backgroundColor:'green',alignItems: 'center', width: '25%', height: '80%', marginRight: 7, borderRadius: 10, justifyContent: 'center'}} 
-                onPress = {() => Alert.alert(
-                    'Atención',
-                    '¿Acepta la solicitud? Se le avisará al transportista para que busque el pedido.',
-                    [
-                        {
-                            text: "Cancelar",
-                        },
-                        {
-                            text: "Aceptar!",
-                            onPress: () => this.sendTripAccepted (this.state.tripData.idTrip, offerData.idTransport, offerData.bid )//Envio un offer o request!Tengo que CERRAR VENTANA y REFRESCAR LISTA DE ITEMS (recargar la pagina)
-                        }
-                    ]
-                    )}
-                >
-                    <Text style={styles.textPrice}> 
-                        {offerData.bid != -1 ? ('$' + offerData.bid) : 'Tomar'}
-                    </Text>
-                </TouchableOpacity>
+                <View style={{flexDirection: 'column', width: '25%', height: '100%', justifyContent: 'space-evenly', paddingHorizontal: 5}}>
+                    <TouchableOpacity 
+                        style={{backgroundColor:'green',alignItems: 'center', width: '100%', height: '40%', marginRight: 7, borderRadius: 10, justifyContent: 'center'}} 
+                        onPress = {() => Alert.alert(
+                            'Atención',
+                            '¿Acepta la solicitud? Se le avisará al transportista para que busque el pedido.',
+                            [
+                                {
+                                    text: "Cancelar",
+                                },
+                                {
+                                    text: "Aceptar",
+                                    onPress: () => this.sendTripAccepted (this.state.tripData.idTrip, offerData.idTransport, offerData.bid )//Envio un offer o request!Tengo que CERRAR VENTANA y REFRESCAR LISTA DE ITEMS (recargar la pagina)
+                                }
+                            ]
+                            )}
+                    >
+                        <Text style={styles.textPrice}> 
+                            {offerData.bid != -1 ? ('$' + offerData.bid) : 'Tomar'}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={{backgroundColor:'red',alignItems: 'center', width: '100%', height: '40%', marginRight: 7, borderRadius: 10, justifyContent: 'center'}}
+                        onPress = {() => Alert.alert(
+                            'Atención',
+                            '¿Desea quitar la solicitud de este usuario? IMPLEMENTAR.',
+                            [
+                                {
+                                    text: "Cancelar",
+                                },
+                                {
+                                    text: "Aceptar",
+                                    onPress: () => console.log('Implementar!')
+                                }
+                            ]
+                            )}
+                        >
+                        
+                        <Text style={styles.textPrice}>Quitar</Text>
+                    </TouchableOpacity>
+                </View>
+                
             </TouchableOpacity>
             
             
@@ -290,6 +371,31 @@ export class ActiveTripProfile extends React.Component {
   }
 }
 
+export class BoardingPassengers extends React.Component {
+
+
+
+    constructor(props){
+        super(props);
+        this.state = {
+
+            tripId: props.data.tripId,
+            passengerData: props.data.passengerData,
+            maxPassengers: props.data.maxPassengers
+            
+        }
+    }
+    
+    render(){
+        return(
+            <Text>Hello!</Text>
+        )
+            
+        
+    }
+}
+
+
 const stylesLocal = StyleSheet.create({
     closeBox: {
         alignSelf: 'flex-end',
@@ -308,8 +414,8 @@ const stylesLocal = StyleSheet.create({
         width: 305,
     },
     mapViewContainer: {
-        flex: 1,
         width: '100%',
+        height: 200,
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
@@ -319,7 +425,7 @@ const stylesLocal = StyleSheet.create({
     },
     mapView: {
         width:'100%',
-        height: 200,
+        height: '100%',
     },
     transportContainer: {
         alignContent: 'center',
@@ -327,17 +433,22 @@ const stylesLocal = StyleSheet.create({
     },
     fromToText: {
         fontFamily: 'sans-serif-medium',
+        //paddingHorizontal: '5%',
         fontSize: 16,
+        //alignSelf:'flex-start',
         color: 'white',
+        maxWidth: '93%',
         textShadowRadius: 20,
         textShadowOffset: {width: 0, height: 2},
     },
     descriptionContainer: {
         backgroundColor: 'rgba(255,255,255,0.7)',
+        flex: 1,
         width: '100%',
-        height: 80,
+        height: '80%',
         borderRadius: 10,
-        padding: 10
+        padding: 10,
+        marginVertical: 10,
     },
     bidContainer: {
         fontSize: 30,
@@ -359,13 +470,29 @@ const stylesLocal = StyleSheet.create({
         fontSize: 20,
         textAlign:'center'
     },
-    transportProfileWrapper: {
+    SVProfileWrapper: {
+        
         alignSelf: 'center',
         borderRadius: 0,
         width: '100%',
-        height: '100%',
         //backgroundColor: 'red',
         alignItems: 'center',
+
+        paddingVertical: 10,
+        
+
+    },
+    transportProfileWrapper: {
+        flex: 1,
+        alignSelf: 'center',
+        borderRadius: 20,
+        width: '95%',
+        height: '95%',
+        marginVertical: '5%',
+        backgroundColor: 'red',
+        padding: 0,
+        alignItems: 'center',
+        elevation: 10,
 
     },
   });

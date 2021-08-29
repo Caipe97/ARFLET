@@ -36,7 +36,7 @@ export default function userReducer(state = initialState, action) {
             return {
                 ...state,
                 isFetching: false,
-                error: true,
+                error: action.data,
             }
         case LOGGING_USER:
             return {
@@ -57,7 +57,7 @@ export default function userReducer(state = initialState, action) {
             return {
                 ...state,
                 isFetching: false,
-                error: true,
+                error: action.data,
                 isLoggedIn: false,
             }
         case LOG_OUT:

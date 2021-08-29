@@ -42,7 +42,7 @@ export function loginUser(inputUserType, inputEmail, inputPassword){
         .then( json => {
             console.log(json)
             if(json.id == -1){
-                return(dispatch(logUserFailure()));
+                return(dispatch(logUserFailure(json.message)));
             }
             json.data.address = JSON.parse(json.data.address);
             if(json.data.carId){ //Es un transport
@@ -50,7 +50,10 @@ export function loginUser(inputUserType, inputEmail, inputPassword){
             }
             return(dispatch(logUserSuccess(json)));
         })
-        .catch( err => dispatch(logUserFailure())) //Error de autenticación
+        .catch( err => {
+            console.log(err);
+            dispatch(logUserFailure(err))
+        }) //Error de autenticación
     }
 }
 
@@ -77,9 +80,10 @@ function logUserSuccess(data){
         data: data
     }
 }
-function logUserFailure(){
+function logUserFailure(data){
     return {
-        type: LOG_USER_FAILURE
+        type: LOG_USER_FAILURE,
+        data: data
     }
 }
 
@@ -96,9 +100,10 @@ function getUserSuccess(data) {
     }
 }
 
-function getUserFailure() {
+function getUserFailure(data) {
     return {
-        type: FETCH_USER_FAILURE
+        type: FETCH_USER_FAILURE,
+        data: data
     }
 }
 function logOut() {

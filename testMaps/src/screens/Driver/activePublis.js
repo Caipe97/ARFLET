@@ -7,7 +7,7 @@ import { PLUS_SIGN } from '../../images';
 import {SimpleCircleButton} from '../../SimpleCircleButton';
 import {API_URL} from '../../constants';
 import CardItem from '../../components/cardItem';
-import {ActiveTripProfile} from '../../components/activePubliModal'
+import {ActiveTripProfile} from '../../components/activePubliModalDriver'
 
 
 export default function ActivePublis(props){

@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements';
 import {Button as PaperButton} from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {ActiveTripProfile} from '../components/activePubliModal';
+import {ActiveTripProfile} from '../components/activePubliModalDriver';
 import {API_URL} from '../constants';
 import { convertStringsToAddressesOneItem } from '../atoms';
 
@@ -65,41 +65,50 @@ export default class NotificationListItem extends React.Component {
     getNotificationContent(item){
         let transportName = this.state.notificationName;
         let transportLastName = this.state.notificationLastName;
-        let iconName = '';
-        let textTitle = <Text>Title Placeholder</Text>
-        let text = <Text>Placeholder</Text>;
+        let iconName ;
+        let textTitle;
+        let text;
 
-        if(item.type == 'newOffer'){
-            textTitle = <Card.Title>Viaje #{item.idTrip} - ¡Nueva Oferta de transportista!</Card.Title>;
+        switch(item.type){
+          case 'newOffer':
+            textTitle = '¡Nueva Oferta de Pasajero!';
             iconName = 'gavel';
-            text = <Text style={{paddingHorizontal: 10, width: 320}}>{transportName} {transportLastName} ofreció ${item.offer} por tu viaje.</Text>;
-
-        }
-        if(item.type == 'newTripRequest'){
-            textTitle =  <Card.Title>Viaje #{item.idTrip} - ¡Nueva Solicitud de transportista!</Card.Title>;
+            text = transportName + ' ' + transportLastName + ' ' + 'ofreció $' + item.offer + ' por tu viaje.';
+            break;
+          case 'newTripRequest':
+            textTitle =  '¡Nueva Solicitud de pasajero!'
             iconName = 'hand-holding-usd';
-            text = <Text style={{paddingHorizontal: 10, width: 320}}>{transportName} {transportLastName} se ofreció para realizar tu viaje.</Text>;
-
-        }
-        if(item.type == 'dispatched'){
-            textTitle = <Card.Title>Viaje #{item.idTrip} - ¡Envío despachado!</Card.Title>;
-            iconName = 'box';
-            text = <Text style={{paddingHorizontal: 10, width: 320}}>Tu envío #{item.idTrip} fue despachado por {transportName} {transportLastName} y está en tránsito a destino.</Text>;
-
-        }
-        if(item.type == 'arrived'){
-            textTitle = <Card.Title>Viaje #{item.idTrip} - ¡Envío entregado!</Card.Title>;
+            text = transportName + ' ' + transportLastName + ' ' + 'se ofreció para realizar tu viaje';
+            break;
+          case 'arrived':
+            textTitle = 'Envío entregado!'
             iconName = 'box-open';
-            text = <Text style={{paddingHorizontal: 10, width: 320}}>Tu envío #{item.idTrip} llegó a destino y fue entregado por {transportName} {transportLastName}.</Text>;
+            text = 'Tu envío #' + item.idTrip + 'llegó a destino.';
+            break;
+          case 'dispatched':
+            textTitle = 'Envío despachado!';
+            iconName = 'box';
+            text = 'Tu envío #' + item.idTrip + 'fue despachado y está en tránsito a destino.';
+            break;
+          default:
+            iconName = 'gavel';
+            textTitle = 'Placeholder. Check item.type';
+            text = 'Placeholder. Check item.type';
         }
+
         return(
             <Card>
-                {textTitle}
+                <Card.Title>Viaje #{item.idTrip} - {textTitle}</Card.Title>
                 <View style={{flexDirection: 'row', marginBottom: 10, alignItems: 'center'}}>
                     <Icon name={iconName} size={30}/>
-                   {text}
+                   <Text style={{paddingHorizontal: 10, width: 320}}>{text}</Text>
                 </View>
-                <PaperButton onPress={() => this.setState(prevState => ({...prevState, isTripModalVisible: true}))} mode='contained'>Ver Publicación</PaperButton>
+
+
+                  <PaperButton onPress={() => this.setState(prevState => ({...prevState, isTripModalVisible: true}))} mode='contained'>
+                    Ver Publicación
+                  </PaperButton>
+                
                 <Modal id="TransportProfileContainer" visible={this.state.isTripModalVisible}  animationType="slide" transparent={true} style={{alignItems: 'center', width: '100%'}}>
                     <ActiveTripProfile tripData={this.state.associatedTrip} fetchTrips={this.state.getNotifsFromApiAsync()} setTripModalVisible={this.setTripModalVisible} userId={this.state.associatedTrip.idClient}/>
                  </Modal> 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { styles } from '../../../styles';
-import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import RadioButtonRN from 'radio-buttons-react-native';
 import {Button as PaperButton, TextInput as PaperInput} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,6 +14,9 @@ export default function SignInScreen(props) {
     const [inputPassword, setInputPassword] = React.useState("1234");
     const [inputUserType, setInputUserType] = React.useState("t");
     const isLoggedIn = props.authentication.isLoggedIn;
+    console.log(props.authentication.error);
+    const fetching = props.authentication.isFetching;
+    const loginError = props.authentication.error;
 
     React.useEffect(() => {
         if(isLoggedIn==1){
@@ -34,12 +37,40 @@ export default function SignInScreen(props) {
         }
     }, [isLoggedIn])
 
+    React.useEffect(()=> {
+      if(loginError){
+        Alert.alert("Error al iniciar sesión", loginError.toString())
+      }
+    }, [loginError])
+
     function handleUserTypeChange(newValue){
         setInputUserType(newValue.type);
     }
 
+    function renderSpinner(){
+      switch (fetching){
+        case true:
+          return(<View style={{
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            alignItems: 'center',
+            justifyContent: 'center',
+            top: 0,
+            bottom: 0,
+            zIndex: 10,
+
+          }}>
+            <ActivityIndicator color="#0000ff" size="large" />
+          </View>)
+        default:
+          return(<></>)
+      }
+    }
+
       return (
         <View style={styles.loginBox}>
+          {renderSpinner()}
             
             <Image
                 style={styles.mainAppLogo}
@@ -83,6 +114,7 @@ export default function SignInScreen(props) {
                 <TouchableOpacity onPress={() => props.navigation.navigate('SelectUserType')}>
                   <Text style={{fontWeight: 'bold'}}>Registrarse</Text>
                 </TouchableOpacity>
+                
               </View>
             </View>
         </View>
