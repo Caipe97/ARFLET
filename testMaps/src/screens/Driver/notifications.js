@@ -32,8 +32,8 @@ export default function Notifications(props){
 
     return(
         <View style={{width: '100%', height: '100%'}}>
-            <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: '#61D095', width: '100%'}}>
-                <Text style={{ fontFamily: 'sans-serif-light', fontSize: 26}}>Notificaciones</Text>
+             <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: 'rgb(24,54,100)', width: '100%', elevation: 10}}>
+                <Text style={{ fontFamily: 'sans-serif', fontSize: 26, color: 'white'}}>Notificaciones</Text>
             </View>
             <FlatList 
                 style={{flex:1, width: '100%', height:'100%', marginTop: 46}}

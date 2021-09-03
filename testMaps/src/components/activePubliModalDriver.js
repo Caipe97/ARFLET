@@ -60,7 +60,7 @@ export class ActiveTripProfile extends React.Component {
       return (
 
         <LinearGradient
-            colors={itemTrip.accepted? (itemTrip.dispatched ? (itemTrip.delivered ? ['#add100', '#7b920a'] : ['#606c88','#3f4c6b'] ) :['#ffc500', '#ff9900']) :['rgba(122,217,211,1)', 'rgba(0,212,255,1)']}
+            colors={['rgb(50,118,119)', 'rgb(50,118,119)']}
             start={{ x: 0.5, y: 0.5}}
             style={stylesLocal.transportProfileWrapper} 
         >
@@ -89,12 +89,10 @@ export class ActiveTripProfile extends React.Component {
 
             </View>
             <ScrollView contentContainerStyle={stylesLocal.SVProfileWrapper}>
-            
-            <Text numberOfLines={1} style={stylesLocal.tripTitle}>{this.state.tripData.title}</Text>
             <Text>
                  Creado: {this.state.tripData.dateCreated}
             </Text>
-            <View id='TextContainer'>
+            <View id='TextContainer' style={{backgroundColor: 'rgb(80,142,154)', borderRadius: 10, padding: 10, width: '95%', height: 180, justifyContent: 'space-around'}}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Emoji name="stopwatch" style={{fontSize: 22}} />
                     <Text style={stylesLocal.fromToText}>{this.state.tripData.dateExpected}</Text>
@@ -477,7 +475,7 @@ const stylesLocal = StyleSheet.create({
         width: '100%',
         //backgroundColor: 'red',
         alignItems: 'center',
-
+        
         paddingVertical: 10,
         
 

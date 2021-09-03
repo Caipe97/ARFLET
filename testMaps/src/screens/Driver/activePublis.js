@@ -88,21 +88,18 @@ export default function ActivePublis(props){
 ]
     return(
         <View style={{width: '100%', height: '100%'}}>
-            <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: 'rgba(122,217,211,1)', width: '100%', elevation: 10}}>
-                <Text style={{ fontFamily: 'sans-serif-light', fontSize: 26}}>Publicaciones Activas</Text>
+            <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: 'rgb(24,54,100)', width: '100%', elevation: 10}}>
+                <Text style={{ fontFamily: 'sans-serif', fontSize: 26, color: 'white'}}>Viajes Activos</Text>
             </View>
             <View style = {{position: 'absolute', zIndex: 10, bottom: 30, right: 30, elevation: 10, justifyContent: 'center'}}>
                 <SimpleCircleButton
                     circleDiameter = {80}
-                    color = 'rgb(0,200,0)'
+                    color = 'rgb(0,167,86)'
                     style={{justifyContent: 'center', alignContent: 'center' }}
                     onPress={() => props.navigation.navigate('TransportTypeSelector')}
                 >
                      <Image source={PLUS_SIGN} style={{width: 15, height: 15}}/>
                 </SimpleCircleButton>
-                <Animated.View style={{width: newPubliPulseSize, height: newPubliPulseSize, position: 'absolute', alignSelf: 'center' ,backgroundColor: 'grey', zIndex: -1, borderRadius: 80, opacity: newPubliPulseOpacity}}>
-
-                </Animated.View>
             </View>
             
             <FlatList 

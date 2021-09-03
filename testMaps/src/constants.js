@@ -8,5 +8,5 @@ export const LOG_USER_FAILURE = 'LOG_USER_FAILURE';
 export const LOG_USER_SUCCESS = 'LOG_USER_SUCCESS';
 export const LOGGING_USER = 'LOGGING_USER';
 
-export const API_URL = 'http://10.0.2.2:3000/';
+export const API_URL = 'http://192.168.0.4:3000/';
 
