@@ -5,7 +5,7 @@ import {Picker} from '@react-native-picker/picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 
-Geocoder.init("AIzaSyD2CxkX_56WjIzdYruMWqifM4xMtgOGpME"); //API Google
+//Geocoder.init("myAPIKEY"); //API Google
 
 export default function RegisterScreen(props)  {
     
