@@ -167,8 +167,8 @@ export default function History(props){
 ]
     return(
         <View style={{width: '100%', height: '100%'}}>
-            <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: '#8CA4A6', width: '100%', elevation: 10}}>
-                <Text style={{ fontFamily: 'sans-serif-light', fontSize: 26}}>Historial de Viajes</Text>
+            <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: '#5465FF', width: '100%', elevation: 10}}>
+            <Text style={{ fontFamily: 'sans-serif', fontSize: 26, color: 'white'}}>Historial de Viajes</Text>
             </View>
             <FlatList 
                 style={{flex:1, width: '100%', height:'100%', marginTop: 46, backgroundColor: '#F2F2F2'}}

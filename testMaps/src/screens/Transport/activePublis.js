@@ -142,8 +142,8 @@ React.useEffect(()=>{
     }
     return(
         <View style={{width: '100%', height: '100%'}}>
-            <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: 'rgba(122,217,211,1)', width: '100%', elevation: 10}}>
-                <Text style={{ fontFamily: 'sans-serif-light', fontSize: 26}}>Publicaciones Activas</Text>
+            <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: '#5465FF', width: '100%', elevation: 10}}>
+                <Text style={{ fontFamily: 'sans-serif', fontSize: 26, color: 'white'}}>Publicaciones Activas</Text>
             </View>            
             <FlatList 
                 style={{flex:1, width: '100%', height:'100%', marginTop: 46}}

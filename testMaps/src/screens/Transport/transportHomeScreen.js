@@ -21,10 +21,10 @@ const NotificationsScreen = connect(mapStateToProps, mapDispatchToProps)(Notific
 export default function HomeNavigator(props) {
     
     return (
-      <Tab.Navigator >
+      <Tab.Navigator>
         <Tab.Screen name="Tomar Viaje" component={NotificationsScreen} options={{ unmountOnBlur: true, tabBarIcon: ({ color }) => (
-          <Icon name="truck-loading" size={24} color={color} />
-        )}}/>
+            <Icon name="truck-loading" size={24} color={color} />
+          )}} />
         <Tab.Screen name="Viajes Activos" component={ActivePublisScreen} options={{unmountOnBlur: true, tabBarIcon: ({ color }) => (
           <Icon name="truck" size={24} color={color} />
         )}}/>

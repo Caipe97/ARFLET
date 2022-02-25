@@ -86,9 +86,10 @@ React.useEffect(() =>{
 }, [createPubliData])
 
     return(
-        <LinearGradient colors={['rgba(122,217,211,1)', 'rgba(0,212,255,1)']} start={{ x: 0.5, y: 0.5}} style={[styles.SelectorLinearGradient]}>
+        <LinearGradient colors={['#788bff', '#5465ff']} start={{ x: 0.5, y: 0.5}} style={[styles.SelectorLinearGradient]}>
             <View style={{height: 300, paddingVertical: 14, alignSelf: 'center', alignItems: 'center'}}>
-                <Text style={{fontFamily: 'sans-serif-light', fontSize: 22, color: 'black', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>¿Qué desea transportar?</Text>
+                
+                <Text style={{ fontFamily: 'sans-serif', fontSize: 26, color: 'white', alignSelf: 'center'}}>¿Qué desea transportar?</Text>
             </View>
             <View style={[styles.ShipmentSelectorContainer]}>
                 <Animated.View style={[isSelected('mercaderia') ? styles.SelectedTransportTypeContainer : (styles.NotSelectedTransportTypeContainer),

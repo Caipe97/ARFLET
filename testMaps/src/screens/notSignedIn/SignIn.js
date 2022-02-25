@@ -1,9 +1,9 @@
 import React from 'react';
 import { styles } from '../../../styles';
 import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
-import RadioButtonRN from 'radio-buttons-react-native';
-import {Button as PaperButton, TextInput as PaperInput} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome';
+//import RadioButtonRN from 'radio-buttons-react-native';
+import {Button as PaperButton, TextInput as PaperInput, RadioButton} from 'react-native-paper';
+//import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 export default function SignInScreen(props) {
@@ -11,7 +11,7 @@ export default function SignInScreen(props) {
     const data = [ {label: 'Cliente', type: 'c'}, {label: 'Transportista', type: 't'} ]; //usado por los RadioButtons
     const [inputEmail, setInputEmail] = React.useState("admin@example.com");
     const [inputPassword, setInputPassword] = React.useState("1234");
-    const [inputUserType, setInputUserType] = React.useState("t");
+    const [inputUserType, setInputUserType] = React.useState("c");
     const isLoggedIn = props.authentication.isLoggedIn;
 
     React.useEffect(() => {
@@ -43,22 +43,13 @@ export default function SignInScreen(props) {
             <Image
                 style={styles.mainAppLogo}
                 source={require('../../images/logo.png')}
+                
             />
             <View style={{ width: '50%'}}>
-              <RadioButtonRN
-                data={data}
-                boxStyle={{height: 40}}
-                activeColor="#FFFFFF"
-                boxActiveBgColor="#35E94D"
-                selectedBtn={(e) => handleUserTypeChange(e)}
-                icon={
-                  <Icon
-                    name="check-circle"
-                    size={25}
-                    color="#FFFFFF"
-                  />
-                }
-              />
+            <RadioButton.Group onValueChange={value => setInputUserType(value)} value={inputUserType}>
+              <RadioButton.Item label="Cliente" value="c" labelStyle={{color: 'rgb(98,0,238)'}}/>
+              <RadioButton.Item label="Transportista" value="t" labelStyle={{color: 'rgb(98,0,238)'}}/>
+            </RadioButton.Group>
             </View>
             <View style={{width: '70%', height: 300, margin: 30}}>
               <PaperInput
@@ -75,7 +66,7 @@ export default function SignInScreen(props) {
                 onChangeText={setInputPassword}
               />
               <PaperButton icon="login" mode="contained" onPress = {() => props.loginUser(inputUserType, inputEmail, inputPassword)} style={{margin: 20, height: 60, justifyContent: 'center'}}>
-                LOGIN
+                Iniciar Sesión
               </PaperButton>
               <View>
                 <Text>No tiene una cuenta todavía? </Text>

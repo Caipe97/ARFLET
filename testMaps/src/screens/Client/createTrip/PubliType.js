@@ -125,20 +125,20 @@ export default function PubliType(props){
         console.log(createPubliData);
     },[createPubliData])
     return(
-        <LinearGradient colors={['rgba(122,217,211,1)', 'rgba(0,212,255,1)']} start={{ x: 0.5, y: 0.5}} style={{ width:"100%", height: "100%", paddingHorizontal: '5%', justifyContent:'space-between'}}>
+        <LinearGradient colors={['#5465FF', '#5465FF']} start={{ x: 0.5, y: 0.5}} style={{ width:"100%", height: "100%", paddingHorizontal: '5%', justifyContent:'space-between'}}>
             <View >
-                <Text style={{fontWeight: '100', fontSize: 26, marginBottom: 20, marginTop: 30, fontFamily: 'sans-serif-light', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Seleccione el tipo de publicación:</Text>
+                <Text style={{ alignSelf: 'center', alignContent: 'center', fontWeight: '100',color: 'white', fontSize: 26, marginBottom: 20, marginTop: 30, fontFamily: 'sans-serif', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Seleccione el tipo de publicación:</Text>
 
                 <TouchableOpacity 
                     style={
                         selectedView == 'bid' ?
-                        {backgroundColor: 'rgba(255,255,255,0.5)', width: '80%', height: 180, marginVertical: 10, alignSelf:'center', borderRadius: 20, alignItems:'center', justifyContent: 'center'} :
+                        {backgroundColor: 'rgba(159,176,249,0.5)', width: '80%', height: 180, marginVertical: 10, alignSelf:'center', borderRadius: 20, alignItems:'center', justifyContent: 'center'} :
                         {backgroundColor: 'rgba(0,0,0,0.1)', width: '80%', height: 180, marginVertical: 10, alignSelf:'center', borderRadius: 20, alignItems:'center'}
                     }
                     onPress={() =>  setSelectedView('bid') }
                 >
                     <Icon name="gavel" size={30} style={{marginVertical: 10}} />
-                    <Text style={{fontSize: 26}}>Subasta</Text>
+                    <Text style={{fontSize: 26, color: 'white'}}>Subasta</Text>
                     <View 
                         style={{width: 180, height: 60, alignItems:'center', flex: 1, flexDirection: 'row', justifyContent: 'center'}}
                         pointerEvents={ selectedView=='bid' ? 'auto' : 'none'}
@@ -159,12 +159,12 @@ export default function PubliType(props){
                 <TouchableOpacity
                     style={
                         selectedView == 'fixed' ?
-                        {backgroundColor: 'rgba(255,255,255,0.5)', width: '80%', height: 180, marginVertical: 20, alignSelf:'center', borderRadius: 20, alignItems:'center'} :
+                        {backgroundColor: 'rgba(159,176,249,0.5)', width: '80%', height: 180, marginVertical: 20, alignSelf:'center', borderRadius: 20, alignItems:'center'} :
                         {backgroundColor: 'rgba(0,0,0,0.1)', width: '80%', height: 180, marginVertical: 20, alignSelf:'center', borderRadius: 20, alignItems:'center'}
                     }
                     onPress={() => setSelectedView('fixed') }>
                     <Icon name="dollar" size={30} style={{marginVertical: 10}} />
-                    <Text style={{fontSize: 26}}>Precio Fijo</Text>
+                    <Text style={{fontSize: 26, color: 'white'}}>Precio Fijo</Text>
                     <View 
                         style={{ width: 180, height: 60, alignItems:'center', flex: 1, flexDirection: 'row', justifyContent: 'center'}}
                         pointerEvents={ selectedView=='fixed' ? 'auto' : 'none'}

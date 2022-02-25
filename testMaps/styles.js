@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
         },
         mainAppLogo : {
             width: 200,
-            height: 200,
+            height: 134,
+            marginBottom: 10
         },
         loginInputBox : {
             width: '100%',
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
             borderWidth: 2
         },
         searchResultsItem: {
-            backgroundColor: 'rgb(200, 200, 200)',
+            backgroundColor: 'rgb(220, 220, 220)',
             flex: 1,
             flexDirection: "row",
             //marginVertical: 5,

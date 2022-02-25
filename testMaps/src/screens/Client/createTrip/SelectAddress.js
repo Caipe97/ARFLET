@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Modal, Pressable, TouchableOpacity, TextInput} from 'react-native';
 import {Button as PaperButton, IconButton} from 'react-native-paper';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { styles} from '../../../../styles'
 import Geocoder from 'react-native-geocoding';
 import LinearGradient from 'react-native-linear-gradient';
 import MapView, {Marker} from 'react-native-maps';
@@ -54,6 +55,8 @@ export default function SelectAddressScreen(props)  {
     const[currentRegion, setRegion] = React.useState({latitude: -34.58, longitude: -58.42, latitudeDelta: 0.0922, longitudeDelta: 0.0421});
     const[markerStartAddress, setMarkerStartAddress] = React.useState();
     const[markerEndAddress, setMarkerEndAddress] = React.useState();
+    const [isStartAddressModalVisible, setStartAddressModalVisible] = React.useState(false);
+    const [isEndAddressModalVisible, setEndAddressModalVisible] = React.useState(false);
 
     const[submitAvailable, setSubmitAvailable] = React.useState();
 
@@ -139,55 +142,64 @@ export default function SelectAddressScreen(props)  {
       },[createPubliData])
     return(
 
-        <LinearGradient colors={['rgba(122,217,211,1)', 'rgba(0,212,255,1)']} start={{ x: 0.5, y: 0.5}} style={{ width:"100%", height: "100%", paddingHorizontal: '5%'}}>
+        <LinearGradient colors={['#5465FF', '#5465FF']} start={{ x: 0.5, y: 0.5}} style={{ width:"100%", height: "100%", paddingHorizontal: '5%'}}>
             <View  style={{ width: '100%', height: '80%'}}>
-                <Text style={{fontWeight: '100', fontSize: 26, marginBottom: 110, fontFamily: 'sans-serif-light', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Seleccione trayecto:</Text>
-                <View style={{width: '100%', position:'absolute', zIndex: 10, top: 40, flex: 1, flexDirection: 'row'}}>
-                    <GooglePlacesAutocomplete
-                    ref={refStart}
-                    placeholder='Origen'
-                    fetchDetails = {true}
-                    onPress={(data, details = null) => {
-                        setSelectedStartAddress({address: data.description, coords: details.geometry.location});
-                    }}
-                    query={{
-                        key: 'AIzaSyD2CxkX_56WjIzdYruMWqifM4xMtgOGpME',
-                        language: 'en',
-                        components:'country:ar'
-                    }}
-                    />
-                    <IconButton 
-                        icon="compass" 
-                        mode="contained" 
-                        type="MaterialIcons"
-                        //onPress = {()=> props.navigation.navigate('Sign In')}
-                        onPress = {()=> getLocationUser('start')}
+                <Text style={{ fontFamily: 'sans-serif', fontSize: 26, color: 'white', alignSelf: 'center', paddingTop: 10}}>Seleccione origen y destino:</Text>
+                <View style={{ zIndex: 10, width: '100%', alignSelf:'center', paddingVertical: 10}}>
+                    <View style={{flexDirection: 'row', width:'85%', alignSelf:'center',alignItems:'center'}}>
+                        <Pressable 
+                            onPress={() => setStartAddressModalVisible(true)}
+                            style={{
+                                backgroundColor: 'white',
+                                width: "95%",
+                                height: "90%",
+                                borderRadius: 5    
+                            }}
+                            >
+                            <View pointerEvents="none">
+                            <TextInput 
+                                value = {selectedStartAddress.address}
+                                selection= {{start: 0}}
+                                
+                            />
+                            </View>
+                        </Pressable>
+                        <IconButton 
+                            icon="compass" 
+                            mode="contained" 
+                            type="MaterialIcons"
+                            onPress = {()=> getLocationUser('start')}
+                            color= 'white'
+                            style={{width:35, height: 35}}>
+                        </IconButton>
+                    </View>
+                    <View style={{flexDirection: 'row', width:'85%', alignSelf:'center',alignItems:'center'}}>
+                        <Pressable 
+                            onPress={() => setEndAddressModalVisible(true)}
+                            style={{
+                                backgroundColor: 'white',
+                                width: "95%",
+                                height: "90%",
+                                borderRadius: 5    
+                            }}
+                            >
+                            <View pointerEvents="none">
+                                <TextInput 
+                                    value = {selectedEndAddress.address}
+                                    selection= {{start: 0}}
+                                />
+                            </View>
+                        </Pressable>
+                        <IconButton 
+                            icon="compass" 
+                            mode="contained" 
+                            type="MaterialIcons"
+                            color= 'white'
+                            onPress = {()=> getLocationUser('end')}
 
-                        style={{width:40, height: 40, justifyContent: 'center', top:-4, paddingLeft:10}}>
-                    </IconButton>
-                </View>
-                <View style={{width: '100%', position:'absolute', zIndex: 10, top: 90, flexDirection: 'row'}}>
-                    <GooglePlacesAutocomplete
-                    ref={refEnd}
-                    placeholder='Destino'
-                    fetchDetails = {true}
-                    onPress={(data, details = null) => {
-                        setSelectedEndAddress({address: data.description, coords: details.geometry.location});
-                    }}
-                    query={{
-                        key: 'AIzaSyD2CxkX_56WjIzdYruMWqifM4xMtgOGpME',
-                        language: 'en',
-                        components:'country:ar'
-                    }}
-                    />
-                     <IconButton  
-                        icon="compass" 
-                        mode="contained" 
-                        //onPress = {()=> props.navigation.navigate('Sign In')}
-                        onPress = {()=> getLocationUser('end')}
-
-                        style={{width:40, height: 40, justifyContent: 'center', top:-4, paddingLeft:10}}>
-                    </IconButton>
+                            style={{width:35, height: 35}}>
+                        </IconButton>
+                    </View>
                 </View>
                 <View style={{width: '100%', height: '80%'}}>
                 <MapView
@@ -211,7 +223,122 @@ export default function SelectAddressScreen(props)  {
                     SIGUIENTE
                     </PaperButton>
                 </View>
-               
+                <Modal id="autocomplete_modal" visible={isStartAddressModalVisible}  animationType='fade' transparent={false} style={{alignItems: 'center', width: '100%'}}>
+                <View style={{backgroundColor: '#EBF2FF', flex: 1}}>
+                    <IconButton 
+                        icon="arrow-left-box" 
+                        mode="contained" 
+                        type="MaterialIcons"
+
+                        style={{width:50, height: 50}}
+                        onPress= { () => {
+                            setStartAddressModalVisible(false)
+                        }}
+                    />
+                    <GooglePlacesAutocomplete
+                        ref={refStart}
+                        styles={{
+                            textInputContainer: {
+                            height:45,
+                            marginHorizontal: 10,
+                            },
+                            listView: {
+                                position:'absolute',
+                                zIndex: 10,
+                                marginTop:50,
+                                height: '100%'
+                            },
+                            row: {
+                                height: 50
+                            }
+                        }}
+                        renderRightButton={() => (
+                            ( refStart.current?.getAddressText() 
+                                ? 
+                                <TouchableOpacity 
+                                    style={styles.clearButton}
+                                onPress={() => { refStart.current?.setAddressText('')}} >
+                                        <IconButton 
+                                                icon="close-circle" 
+                                                mode="contained" 
+                                                type="Ionicons"
+                                                style={{width:30, height: 32}}
+                                            />
+                                </TouchableOpacity> 
+                            :
+                                null )	)}
+                        placeholder='Origen'
+                        fetchDetails = {true}
+                        onPress={(data, details = null) => {
+                            setSelectedStartAddress({address: data.description, coords: details.geometry.location});
+                            setStartAddressModalVisible(false);
+                        }}
+                        query={{
+                            key: 'AIzaSyD2CxkX_56WjIzdYruMWqifM4xMtgOGpME',
+                            language: 'es',
+                            components:'country:ar'
+                        }}
+                        />
+                </View>
+            </Modal>
+            <Modal id="autocomplete_modal" visible={isEndAddressModalVisible}  animationType='fade' transparent={false} style={{alignItems: 'center', width: '100%'}}>
+                <View style={{backgroundColor: '#EBF2FF', flex: 1}}>
+                    <IconButton 
+                        icon="arrow-left-box" 
+                        mode="contained" 
+                        type="MaterialIcons"
+
+                        style={{width:50, height: 50}}
+                        onPress= { () => {
+                            setEndAddressModalVisible(false)
+                        }}
+                    />
+                    <GooglePlacesAutocomplete
+                        ref={refEnd}
+                        styles={{
+                            textInputContainer: {
+                            height:45,
+                            marginHorizontal: 10,
+                            },
+                            listView: {
+                                position:'absolute',
+                                zIndex: 10,
+                                marginTop:50,
+                                height: '100%'
+                            },
+                            row: {
+                                height: 50
+                            }
+                        }}
+                        renderRightButton={() => (
+                            ( refEnd.current?.getAddressText() 
+                                ? 
+                                <TouchableOpacity 
+                                    style={styles.clearButton}
+                                onPress={() => { refEnd.current?.setAddressText('')}} >
+                                        <IconButton 
+                                                icon="close-circle" 
+                                                mode="contained" 
+                                                type="Ionicons"
+                                                style={{width:30, height: 32}}
+                                            />
+                                </TouchableOpacity> 
+                            :
+                                null )	)}
+                        placeholder='Destino'
+                        fetchDetails = {true}
+                        onPress={(data, details = null) => {
+                            setSelectedEndAddress({address: data.description, coords: details.geometry.location});
+                            setEndAddressModalVisible(false);
+                        }}
+                        query={{
+                            key: 'AIzaSyD2CxkX_56WjIzdYruMWqifM4xMtgOGpME',
+                            language: 'es',
+                            components:'country:ar'
+                        }}
+                        />
+                </View>
+            </Modal>
             </View>
             
         </LinearGradient>

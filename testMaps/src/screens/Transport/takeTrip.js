@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Image, TouchableOpacity, FlatList, Modal, Animated, Alert, ScrollView} from 'react-native';
+import { Text, View, Image, TouchableOpacity, FlatList, Modal, Animated, Alert, ScrollView, Pressable, TextInput} from 'react-native';
 import MapView, { Marker, Circle } from 'react-native-maps';
 import { styles } from '../../../styles';
 import { SEL_RECYCLE, SEL_GOODS, SEL_MOVING, SEL_CONSTMAT, SEL_APPLIANCES } from '../../images';
@@ -57,33 +57,33 @@ function transportTypeIcon(transportType){
     switch (transportType){
         case 'mercaderia':
             return(
-                <View style={{borderRadius: 100, backgroundColor: 'orange', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
+                <View style={{borderRadius: 100, backgroundColor: 'orange', width: 60, height: 60, justifyContent: 'center', alignItems: 'center'}}>
                     <Image source={SEL_GOODS} style={{  width: 40, height: 40}}/>
                 </View>
             );
         case 'residuos':
             return(
-                <View style={{borderRadius: 100, backgroundColor: 'green', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
+                <View style={{borderRadius: 100, backgroundColor: 'green', width: 60, height: 60, justifyContent: 'center', alignItems: 'center'}}>
                     <Image source={SEL_RECYCLE} style={{ width: 40, height: 40}}/>
                 </View>
             );
         case 'mudanzas':
             return(
-                <View style={{borderRadius: 100, backgroundColor: '#35524A', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
+                <View style={{borderRadius: 100, backgroundColor: '#35524A', width: 60, height: 60, justifyContent: 'center', alignItems: 'center'}}>
                     <Image source={SEL_MOVING} style={{width: 40, height: 40}}/>
                 </View>
             );
 
         case 'construccion':
             return(
-            <View style={{borderRadius: 100, backgroundColor: 'brown', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
+            <View style={{borderRadius: 100, backgroundColor: 'brown', width: 60, height: 60, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={SEL_CONSTMAT} style={{width: 40, height: 40}}/>
             </View>
             );
 
         case 'electrodomesticos':
             return(
-            <View style={{borderRadius: 100, backgroundColor: '#35A7FF', width: 60, height: 60, justifyContent: 'center', alignItems: 'center', elevation: 3}}>
+            <View style={{borderRadius: 100, backgroundColor: '#35A7FF', width: 60, height: 60, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={SEL_APPLIANCES} style={{width: 40, height: 40}}/>
             </View>);
 
@@ -95,6 +95,8 @@ function transportTypeIcon(transportType){
 export default function TomarViaje(props){
 
     const [isTripModalVisible, setTripModalVisible] = React.useState(false);
+    const [isStartAddressModalVisible, setStartAddressModalVisible] = React.useState(false);
+    const [isEndAddressModalVisible, setEndAddressModalVisible] = React.useState(false);
     const [tripModalContent, setTripModalContent] = React.useState('');
     const[currentRegion, setRegion] = React.useState({latitude: -34.58, longitude: -58.42, latitudeDelta: 0.0922, longitudeDelta: 0.0421});
     const[selectedStartAddress, setSelectedStartAddress] = React.useState({address: '', coords: {lat: 0, lng: 0}});
@@ -148,11 +150,9 @@ export default function TomarViaje(props){
     },[selectedElectro, selectedMercaderia, selectedMudanzas, selectedResiduos, selectedConstruccion])
 
     function flipMercaderia () {
-        console.log('flippen');
         setSelectedMercaderia(!selectedMercaderia);
     }
     const flipResiduos = () =>{
-        console.log('flippen');
         setSelectedResiduos(!selectedResiduos);
     }
     const flipConstruccion = () =>{
@@ -359,100 +359,85 @@ export default function TomarViaje(props){
 
     return(
         <View style={{flex:1}}>
-            <LinearGradient colors={['#caf56e', '#addb4b']} start={{ x: 0.5, y: 0.1}} style={{ zIndex: 10, position: 'absolute', width: '100%', alignSelf:'center', paddingTop: 10, backgroundColor: 'rgba(122,217,211,1)', elevation: 20}}>
-                <View style={{flexDirection: 'row', flex:1, width:'85%', alignSelf:'flex-end',alignItems:'center'}}>
-                    <GooglePlacesAutocomplete
-                    ref={refStart}
-                    styles={{
-                        textInputContainer: {
-                          height:45,
-                        },
-                        listView: {
-                            position:'absolute',
-                            zIndex: 10,
-                            marginTop:50,
-                        },
-                    }}
-                    placeholder='Origen'
-                    fetchDetails = {true}
-                    onPress={(data, details = null) => {
-                        setSelectedStartAddress({address: data.description, coords: details.geometry.location});
-                    }}
-                    query={{
-                        key: 'AIzaSyD2CxkX_56WjIzdYruMWqifM4xMtgOGpME',
-                        language: 'es',
-                        components:'country:ar'
-                    }}
-                    />
+            <LinearGradient colors={['#5465FF', '#5465FF']} start={{ x: 0.5, y: 0.1}} style={{ zIndex: 10, position: 'absolute', width: '100%', alignSelf:'center', paddingTop: 10, backgroundColor: 'rgba(122,217,211,1)', elevation: 20}}>
+                <View style={{flexDirection: 'row', flex:1, width:'85%', alignSelf:'center',alignItems:'center'}}>
+                    <Pressable 
+                        onPress={() => setStartAddressModalVisible(true)}
+                        style={{
+                            backgroundColor: 'white',
+                            width: "95%",
+                            height: "90%",
+                            borderRadius: 5    
+                        }}
+                        >
+                        <View pointerEvents="none">
+                        <TextInput 
+                            value = {selectedStartAddress.address}
+                            selection= {{start: 0}}
+                            
+                        />
+                        </View>
+                    </Pressable>
                     <IconButton 
                         icon="compass" 
                         mode="contained" 
                         type="MaterialIcons"
-                        //onPress = {()=> props.navigation.navigate('Sign In')}
                         onPress = {()=> getLocationUserForAddress('start')}
-
-                        style={{width:35, height: 35, marginLeft:10}}>
+                        color= 'white'
+                        style={{width:35, height: 35}}>
                     </IconButton>
                 </View>
-                <View style={{flexDirection: 'row', flex:1, width:'85%', alignSelf:'flex-end', alignItems:'center'}}>
-                    <GooglePlacesAutocomplete
-                    ref={refEnd}
-                    placeholder='Destino'
-                    fetchDetails = {true}
-                    styles={{
-                        textInputContainer: {
-                          height:45,
-                        },
-                        listView: {
-                            position:'absolute',
-                            zIndex: 10,
-                            marginTop:50,
-                        },
-                    }}
-                    onPress={(data, details = null) => {
-                        setSelectedEndAddress({address: data.description, coords: details.geometry.location});
-                    }}
-                    query={{
-                        key: 'AIzaSyD2CxkX_56WjIzdYruMWqifM4xMtgOGpME',
-                        language: 'es',
-                        components:'country:ar'
-                    }}
-                    />
-                    <IconButton  
+                <View style={{flexDirection: 'row', flex:1, width:'85%', alignSelf:'center',alignItems:'center'}}>
+                    <Pressable 
+                        onPress={() => setEndAddressModalVisible(true)}
+                        style={{
+                            backgroundColor: 'white',
+                            width: "95%",
+                            height: "90%",
+                            borderRadius: 5    
+                        }}
+                        >
+                        <View pointerEvents="none">
+                            <TextInput 
+                                value = {selectedEndAddress.address}
+                                selection= {{start: 0}}
+                            />
+                        </View>
+                    </Pressable>
+                    <IconButton 
                         icon="compass" 
                         mode="contained" 
-                        //onPress = {()=> props.navigation.navigate('Sign In')}
+                        type="MaterialIcons"
+                        color= 'white'
                         onPress = {()=> getLocationUserForAddress('end')}
 
-                        style={{width:35, height: 35, marginLeft:10}}>
+                        style={{width:35, height: 35}}>
                     </IconButton>
                 </View>
-                <View style={{flexDirection: 'row', flex:1, justifyContent:'center', width:'100%'}}>
-                    <View style={{flexDirection: 'row', flex:1, justifyContent:'center', width:'40%'}}>
+                <View style={{flexDirection: 'row', flex:1, justifyContent:'space-between', width:'100%', paddingVertical: 5}}>
+                    <View style={{flexDirection: 'row', paddingHorizontal: 5}}>
                         {getTransportTypes(props.authentication.user.data.transportTypes)}
                     </View>
-                    <Text style={{ alignSelf:'center', fontSize: 18, paddingLeft: 3}}>Radio:  </Text>
-                    <View style={{ borderWidth: 1, borderColor: 'purple', borderRadius: 10, height: 30, marginTop: 6, marginRight: 5, justifyContent: 'center' }}>
-                    <Picker
-                    selectedValue= {selectedStartRadio}
-                    onValueChange={(value) => setSelectedStartRadio(value)}
-                    style={{height:27, width: 110}}
-                    >
-                        <Picker.Item label={"2 KM"} value={2} key={'_'}/>
-                        <Picker.Item label={"5 KM"} value={5} key={'_'}/>
-                        <Picker.Item label={"10 KM"} value={10} key={'_'}/>
-                        <Picker.Item label={"25 KM"} value={25} key={'_'}/>
-                        <Picker.Item label={"50 KM"} value={50} key={'_'}/>
-                    
-                    </Picker> 
-                </View>
+                    <View style={{borderWidth: 1, borderColor: 'grey', borderRadius: 10, height: 30, marginTop: 6, marginRight: 5, justifyContent: 'center', backgroundColor: '#EBF2FF', width: "35%" }}>
+                        <Picker
+                        selectedValue= {selectedStartRadio}
+                        onValueChange={(value) => setSelectedStartRadio(value)}
+                        style={{height:27}}
+                        >
+                            <Picker.Item label={"2 KM"} value={2} key={'_'}/>
+                            <Picker.Item label={"5 KM"} value={5} key={'_'}/>
+                            <Picker.Item label={"10 KM"} value={10} key={'_'}/>
+                            <Picker.Item label={"25 KM"} value={25} key={'_'}/>
+                            <Picker.Item label={"50 KM"} value={50} key={'_'}/>
+                        </Picker> 
+                    </View>
                 </View>
             </LinearGradient>
             <MapView 
                     style={{width: '100%', height: '100%'}}
                     region= {currentRegion}
-                    //onTouchStart={() => setMapHighlight(1)}
                     showsUserLocation={true}
+                    pointerEvents="none"
 
                 >
                     <Circle center={{latitude: selectedStartAddress.coords.lat, longitude: selectedStartAddress.coords.lng}} radius={selectedStartRadio*1000} fillColor='rgba(0,0,255,0.1)' strokeColor='purple'/>
@@ -496,7 +481,123 @@ export default function TomarViaje(props){
                 
                 <TransportProfile tripData={tripModalContent} userData={props.authentication.user.data} fetchTrips={fetchTrips} setModalVisible={setTripModalVisible}></TransportProfile>
 
-                </Modal> 
+            </Modal>
+            <Modal id="autocomplete_modal" visible={isStartAddressModalVisible}  animationType='fade' transparent={false} style={{alignItems: 'center', width: '100%'}}>
+                <View style={{backgroundColor: '#EBF2FF', flex: 1}}>
+                    <IconButton 
+                        icon="arrow-left-box" 
+                        mode="contained" 
+                        type="MaterialIcons"
+
+                        style={{width:50, height: 50}}
+                        onPress= { () => {
+                            setStartAddressModalVisible(false)
+                        }}
+                    />
+                    <GooglePlacesAutocomplete
+                        ref={refStart}
+                        styles={{
+                            textInputContainer: {
+                            height:45,
+                            marginHorizontal: 10,
+                            },
+                            listView: {
+                                position:'absolute',
+                                zIndex: 10,
+                                marginTop:50,
+                                height: '100%'
+                            },
+                            row: {
+                                height: 50
+                            }
+                        }}
+                        renderRightButton={() => (
+                            ( refStart.current?.getAddressText() 
+                                ? 
+                                <TouchableOpacity 
+                                    style={styles.clearButton}
+                                onPress={() => { refStart.current?.setAddressText('')}} >
+                                        <IconButton 
+                                                icon="close-circle" 
+                                                mode="contained" 
+                                                type="Ionicons"
+                                                style={{width:30, height: 32}}
+                                            />
+                                </TouchableOpacity> 
+                            :
+                                null )	)}
+                        placeholder='Origen'
+                        fetchDetails = {true}
+                        onPress={(data, details = null) => {
+                            setSelectedStartAddress({address: data.description, coords: details.geometry.location});
+                            setStartAddressModalVisible(false);
+                        }}
+                        query={{
+                            key: 'AIzaSyD2CxkX_56WjIzdYruMWqifM4xMtgOGpME',
+                            language: 'es',
+                            components:'country:ar'
+                        }}
+                        />
+                </View>
+            </Modal>
+            <Modal id="autocomplete_modal" visible={isEndAddressModalVisible}  animationType='fade' transparent={false} style={{alignItems: 'center', width: '100%'}}>
+                <View style={{backgroundColor: '#EBF2FF', flex: 1}}>
+                    <IconButton 
+                        icon="arrow-left-box" 
+                        mode="contained" 
+                        type="MaterialIcons"
+
+                        style={{width:50, height: 50}}
+                        onPress= { () => {
+                            setEndAddressModalVisible(false)
+                        }}
+                    />
+                    <GooglePlacesAutocomplete
+                        ref={refEnd}
+                        styles={{
+                            textInputContainer: {
+                            height:45,
+                            marginHorizontal: 10,
+                            },
+                            listView: {
+                                position:'absolute',
+                                zIndex: 10,
+                                marginTop:50,
+                                height: '100%'
+                            },
+                            row: {
+                                height: 50
+                            }
+                        }}
+                        renderRightButton={() => (
+                            ( refEnd.current?.getAddressText() 
+                                ? 
+                                <TouchableOpacity 
+                                    style={styles.clearButton}
+                                onPress={() => { refEnd.current?.setAddressText('')}} >
+                                        <IconButton 
+                                                icon="close-circle" 
+                                                mode="contained" 
+                                                type="Ionicons"
+                                                style={{width:30, height: 32}}
+                                            />
+                                </TouchableOpacity> 
+                            :
+                                null )	)}
+                        placeholder='Destino'
+                        fetchDetails = {true}
+                        onPress={(data, details = null) => {
+                            setSelectedEndAddress({address: data.description, coords: details.geometry.location});
+                            setEndAddressModalVisible(false);
+                        }}
+                        query={{
+                            key: 'AIzaSyD2CxkX_56WjIzdYruMWqifM4xMtgOGpME',
+                            language: 'es',
+                            components:'country:ar'
+                        }}
+                        />
+                </View>
+            </Modal>
         </View>
         
         

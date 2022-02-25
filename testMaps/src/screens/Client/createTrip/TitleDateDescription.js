@@ -51,9 +51,9 @@ export default function TitleDateDescription(props){
         <KeyboardAvoidingView style={{width:'100%', height: '100%'}}>
 
         
-        <LinearGradient colors={['rgba(122,217,211,1)', 'rgba(0,212,255,1)']} start={{ x: 0.5, y: 0.5}} style={[styles.GenericLinearGradient, {alignItems: 'center', justifyContent: 'space-between'}]}>
+        <LinearGradient colors={['#788bff', '#5465ff']} start={{ x: 0.5, y: 0.5}} style={[styles.GenericLinearGradient, {alignItems: 'center', justifyContent: 'space-between'}]}>
             <View style={{height: 100, paddingVertical: 14,paddingHorizontal: '10%', alignSelf: 'center', alignItems: 'center'}}>
-                <Text style={{fontFamily: 'sans-serif-light', fontSize: 22, color: 'black', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Elija un título, Día de envío y descripción:</Text>
+                <Text style={{fontFamily: 'sans-serif', fontSize: 22, color: 'white', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Complete estos datos:</Text>
             </View>
             <View style={{justifyContent: 'space-between', alignItems: 'center', width: '90%', height: 400, paddingBottom: 100}}>
                 <PaperInput
@@ -62,15 +62,25 @@ export default function TitleDateDescription(props){
                     maxLength={40}
                     value={titleInput}
                     onChangeText={setTitleInput}
-                    style={{backgroundColor: 'transparent', width: '80%'}}
+                    style={{backgroundColor: 'transparent', width: 300, color: 'white'}}
+                    theme={{
+                        colors: {
+                                   placeholder: 'white', text: 'white', primary: '#0014cc',
+                                   underlineColor: 'transparent', background: '#003489'
+                           }
+                     }}
                 />
-                <DatePicker
-                date={myDate}
-                mode={'datetime'}
-                minimumDate={new Date()}
-                onDateChange={handleSetDate}
-                style={{backgroundColor: 'white', height: 100, width: 250, borderRadius: 10}}
-                />
+                <View style={{width: 300}}>
+                    <Text style={{alignSelf: 'flex-start',fontFamily: 'sans-serif', fontSize: 18, color: 'white', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Fecha:</Text>
+                    <DatePicker
+                    date={myDate}
+                    mode={'datetime'}
+                    minimumDate={new Date()}
+                    onDateChange={handleSetDate}
+                    style={{backgroundColor: 'white', height: 100, width: 300, borderRadius: 10}}
+                    />
+                </View>
+                
                 <PaperInput
                     multiline={true}
                     numberOfLines={3}
@@ -78,7 +88,7 @@ export default function TitleDateDescription(props){
                     mode='outlined'
                     value={descriptionInput}
                     onChangeText={setDescriptionInput}
-                    style={{width: '80%',}}
+                    style={{width: 300,}}
                     render={(innerProps) => (
                         <NativeTextInput
                             {...innerProps}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, FlatList, Modal, Animated, Alert, ScrollView, RefreshControl } from 'react-native';
 import { Card } from 'react-native-elements';
-import {Button as PaperButton} from 'react-native-paper';
+import {Button as PaperButton, IconButton} from 'react-native-paper';
 import { RatingStars } from '../../addons';
 import MapView, { Marker } from 'react-native-maps';
 import { styles } from '../../../styles';
@@ -190,22 +190,15 @@ export default function ActivePublis(props){
 ]
     return(
         <View style={{width: '100%', height: '100%'}}>
-            <View id='headerTop' style={{padding: 10,  position: 'absolute', zIndex: 10, backgroundColor: 'rgba(122,217,211,1)', width: '100%', elevation: 10}}>
-                <Text style={{ fontFamily: 'sans-serif-light', fontSize: 26}}>Publicaciones Activas</Text>
-            </View>
-            <View style = {{position: 'absolute', zIndex: 10, bottom: 30, right: 30, elevation: 10, justifyContent: 'center'}}>
-                <SimpleCircleButton
-                    circleDiameter = {80}
-                    color = 'rgb(0,200,0)'
-                    style={{justifyContent: 'center', alignContent: 'center' }}
+            <View id='headerTop' style={{paddingVertical: 8, paddingHorizontal: 10,  position: 'absolute', zIndex: 10, backgroundColor: '#5465FF', width: '100%', elevation: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                <Text style={{ fontFamily: 'sans-serif', fontSize: 26, color: 'white'}}>Publicaciones Activas</Text>
+                <IconButton
+                    icon="plus-thick"
+                    size={20}
+                    color='white'
                     onPress={() => props.navigation.navigate('TransportTypeSelector')}
-                >
-                     <Image source={PLUS_SIGN} style={{width: 15, height: 15}}/>
-                </SimpleCircleButton>
-                <Animated.View style={{width: newPubliPulseSize, height: newPubliPulseSize, position: 'absolute', alignSelf: 'center' ,backgroundColor: 'grey', zIndex: -1, borderRadius: 80, opacity: newPubliPulseOpacity}}>
-
-                </Animated.View>
-            </View>
+                />
+            </View> 
             
             <FlatList 
                 style={{flex:1, width: '100%', height:'100%', marginTop: 46}}
@@ -216,7 +209,7 @@ export default function ActivePublis(props){
                   }
                 ListEmptyComponent={<View style={{flex:1, width: '100%', height:'100%', justifyContent: 'center', alignItems: 'center', paddingTop: 30}}><Text>No hay viajes!</Text></View>}
                 renderItem={({item}) => 
-                <Card >
+                <Card style={{backgroundColor: 'red'}}>
                     <Card.Title style={[{height: 20}]}>Viaje #{item.idTrip} - {item.title}</Card.Title>
 
                         <View style={{flex: 1, flexDirection:'row', alignItems: 'center'}}>
@@ -245,7 +238,7 @@ export default function ActivePublis(props){
                                 <View style={[(item.accepted ? (item.dispatched ? (item.delivered ? {backgroundColor: '#870909'} : {backgroundColor: '#394052'}): {backgroundColor: '#995c02'}) : {backgroundColor: '#0f4000'}),{alignItems: 'center', width: 80, height: 60, borderRadius: 10, elevation: 3}]}>
                                     <TouchableOpacity 
                                     
-                                    style={[(item.accepted ? (item.dispatched ? (item.delivered ? {backgroundColor: 'red'} : {backgroundColor: '#606c88'}): {backgroundColor: 'orange'}) : {backgroundColor: 'green'}), {alignItems: 'center', width: 80, height: 57, borderRadius: 10, justifyContent: 'space-around'}]}
+                                    style={[(item.accepted ? (item.dispatched ? (item.delivered ? {backgroundColor: 'red'} : {backgroundColor: '#606c88'}): {backgroundColor: 'orange'}) : {backgroundColor: 'rgb(0,200,0)'}), {alignItems: 'center', width: 80, height: 57, borderRadius: 10, justifyContent: 'space-around'}]}
                                      onPress={() => showTripModal(true, item)}>
                                         <Text style={{fontSize: 16, color: 'white', textAlign: 'center'}}>{item.accepted ? (item.dispatched ? (item.delivered ? 'Entregado' : 'En viaje'): 'Por despachar') : 'Activa'}</Text>
                                     </TouchableOpacity>

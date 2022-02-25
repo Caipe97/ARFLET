@@ -106,20 +106,20 @@ export default function Profile(props){
 
     
     return(
-        <LinearGradient colors={['#3498db', '#2c3e50']} start={{ x: 0.5, y: 0.5}} style={styles.GenericLinearGradient} >
-            <View style={{backgroundColor: 'white', width: '90%', height: 590, alignSelf: 'center', backgroundColor:'rgb(220,220,220)', marginTop: 80}}>
+        <LinearGradient colors={['#788BFF', '#788BFF']} start={{ x: 0.5, y: 0.5}} style={styles.GenericLinearGradient} >
+            <View style={{ width: '90%', height: 590, alignSelf: 'center', backgroundColor:'#BFD7FF', marginTop: 80}}>
                 <Image source={SEARCH_PLACEHOLDER} style={{  width: 130, height: 130, alignSelf: 'center', top: -80}}/>
-                <View id='container Items inside grey box' style={{width:'95%', height: 520, backgroundColor: 'rgb(220,220,220)', alignSelf: 'center', top: -80, alignItems: 'center'}}>
+                <View id='container Items inside grey box' style={{width:'95%', height: 520, backgroundColor: '#BFD7FF', alignSelf: 'center', top: -80, alignItems: 'center'}}>
                     <Text style={{fontFamily: 'sans-serif-medium', textAlign: 'center', fontSize: 30, color: 'white', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>{profileData.name} {profileData.lastName}</Text>
-                    <View id= 'emailContainer' style={{ elevation: 8, backgroundColor: 'white', width: '90%', height: 60, flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 10, marginTop: 10}}>
+                    <View id= 'emailContainer' style={{ elevation: 8, backgroundColor: '#EBF2FF', width: '90%', height: 60, flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 10, marginTop: 10}}>
                         <Icon name='at' size={40} color='grey'/>
                         <Text style={{alignSelf: 'center', width: 200}}>{profileData.email}</Text>
                     </View>
-                    <View id= 'phoneContainer' style={{elevation: 8,backgroundColor: 'white', width: '90%', height: 60, flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 10, marginTop: 10}}>
+                    <View id= 'phoneContainer' style={{elevation: 8,backgroundColor: '#EBF2FF', width: '90%', height: 60, flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 10, marginTop: 10}}>
                         <Icon name='phone' size={40} color='grey'/>
                         <Text style={{alignSelf: 'center', width: 200}}>{profileData.phone}</Text>
                     </View>
-                    <View id= 'carContainer' style={{elevation: 8,backgroundColor: 'white', width: '90%', height: 60, flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 10, marginTop: 10}}>
+                    <View id= 'carContainer' style={{elevation: 8,backgroundColor: '#EBF2FF', width: '90%', height: 60, flexDirection:'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 10, marginTop: 10}}>
                         <View style={{left: -7}}>
                             <Icon name='truck' size={40} color='grey'/>
                         </View>
