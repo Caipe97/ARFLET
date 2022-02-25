@@ -23,12 +23,12 @@ export default function PreSignInScreen(props)  {
     setSignUpData(auxSignUpData);
   }
     return (
-      <LinearGradient colors={['rgba(122,217,211,1)', 'rgba(0,212,255,1)']} start={{ x: 0.5, y: 0.5}} style={{flex: 1, width:"100%", height: "100%", justifyContent: 'space-evenly', alignContent: 'space-around', padding: 10}}>
-      <Text style={{fontFamily: 'sans-serif-light', fontSize: 28, textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Indique el tipo de usuario:</Text>
+      <LinearGradient colors={['#9BB1FF', '#BFD7FF']} start={{ x: 0.5, y: 0.5}} style={{flex: 1, width:"100%", height: "100%", justifyContent: 'space-evenly', alignContent: 'space-around', padding: 10}}>
+      <Text style={{fontFamily: 'sans-serif', color: 'white', fontSize: 28, textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Indique el tipo de usuario:</Text>
       <View style={styles.preSignInBox}>
           <SimpleCircleButton
             circleDiameter = {180}
-            color = 'green'
+            color = 'rgb(98,0,238)'
             onPress = {() => goClient()}
           >
             <Image 
@@ -39,7 +39,7 @@ export default function PreSignInScreen(props)  {
           </SimpleCircleButton> 
           <SimpleCircleButton
             circleDiameter = {180}
-            color = 'green'
+            color = 'rgb(98,0,238)'
             onPress = {() => goTransport()}
           >
             <Image 

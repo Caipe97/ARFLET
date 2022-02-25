@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
             borderWidth: 2
         },
         searchResultsItem: {
-            backgroundColor: 'rgb(220, 220, 220)',
+            backgroundColor: 'rgb(220,220,220)',
             flex: 1,
             flexDirection: "row",
             //marginVertical: 5,

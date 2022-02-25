@@ -99,9 +99,9 @@ export default function SelectAddressScreen(props)  {
       },[selectedAddress])
     return(
 
-        <LinearGradient colors={['rgba(122,217,211,1)', 'rgba(0,212,255,1)']} start={{ x: 0.5, y: 0.5}} style={{ width:"100%", height: "100%", paddingHorizontal: '5%'}}>
+        <LinearGradient colors={['#9BB1FF', '#BFD7FF']} start={{ x: 0.5, y: 0.5}} style={{ width:"100%", height: "100%", paddingHorizontal: '5%'}}>
             <View  style={{ width: '100%', height: '80%'}}>
-                <Text style={{fontWeight: '100', fontSize: 28, marginBottom: 70, fontFamily: 'sans-serif-light', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Por último, seleccione su domicilio:</Text>
+                <Text style={{fontWeight: '100', color: 'white', fontSize: 28, marginBottom: 70, fontFamily: 'sans-serif', textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Por último, seleccione su domicilio:</Text>
                 <View style={{width: '100%', position:'absolute', zIndex: 10, top: 80}}>
                     <GooglePlacesAutocomplete
                     placeholder='Search'

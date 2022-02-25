@@ -100,44 +100,62 @@ export default function RegisterData(props) {
     
 
  return(
-    <LinearGradient colors={['rgba(122,217,211,1)', 'rgba(0,212,255,1)']} start={{ x: 0.5, y: 0.5}} style={{flex: 1, width:"100%", height: "100%", justifyContent: 'space-evenly', alignContent: 'space-around'}}>
+    <LinearGradient colors={['#9BB1FF', '#BFD7FF']} start={{ x: 0.5, y: 0.5}} style={{flex: 1, width:"100%", height: "100%", justifyContent: 'space-evenly', alignContent: 'space-around'}}>
             <View style={{width: '100%', height: 80, paddingLeft: 10, justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{fontFamily: 'sans-serif-light', fontSize: 28, textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}}}>Primero, rellene estos datos:</Text>
+                <Text style={{fontFamily: 'sans-serif', fontSize: 28, textShadowRadius: 20, textShadowOffset: {width: 0, height: 2}, color: 'white'}}>Primero, rellene estos datos:</Text>
             </View>
             <View style={{alignItems: 'baseline', marginLeft: '10%'}}>
               <View style={{flexDirection: 'row', width: 350, alignItems: 'center'}}>
-                <Icon name='user' size={30} color='rgb(50,50,50)' />
+                <Icon name='user' size={30} color='white' />
                 <PaperInput
                   label='Nombre'
                   mode="flat"
                   value={inputName}
                   onChangeText={setInputName}
                   style={{height: 60, width: '50%', margin: 10, backgroundColor: 'rgba(0,0,0,0)'}}
+                  theme={{
+                    colors: {
+                               placeholder: 'white', text: 'white', primary: '#0014cc',
+                               underlineColor: 'transparent', background: '#003489'
+                       }
+                 }}
                   />
 
               </View>
               <View style={{flexDirection: 'row', width: 350, alignItems: 'center'}}>
-                <Icon name='user-o' size={26} color='rgb(50,50,50)' />
+                <Icon name='user-o' size={26} color='white' />
                 <PaperInput
                 label='Apellido'
                 mode="flat"
                 value={inputLastName}
                 onChangeText={setInputLastName}
                 style={{height: 60, width: '50%', margin: 10, backgroundColor: 'rgba(0,0,0,0)'}}
+                theme={{
+                  colors: {
+                             placeholder: 'white', text: 'white', primary: '#0014cc',
+                             underlineColor: 'transparent', background: '#003489'
+                     }
+               }}
                 />
               </View>
               <View style={{flexDirection: 'row', width: 350, alignItems: 'center'}}>
-                <Icon name='at' size={28} color='rgb(50,50,50)' />
+                <Icon name='at' size={28} color='white' />
                 <PaperInput
                 label='Email'
                 mode="flat"
                 value={inputEmail}
                 onChangeText={setInputEmail}
                 style={{height: 60, width: '70%', margin: 10, backgroundColor: 'rgba(0,0,0,0)'}}
+                theme={{
+                  colors: {
+                             placeholder: 'white', text: 'white', primary: '#0014cc',
+                             underlineColor: 'transparent', background: '#003489'
+                     }
+               }}
                 />
               </View>
               <View style={{flexDirection: 'row', width: 350, alignItems: 'center'}}>
-                <Icon name='asterisk' size={24} color='rgb(50,50,50)' />
+                <Icon name='asterisk' size={24} color='white' />
                 <PaperInput
                 label='Password'
                 secureTextEntry={true}
@@ -145,16 +163,28 @@ export default function RegisterData(props) {
                 value={inputPassword}
                 onChangeText={setInputPassword}
                 style={{height: 60, width: '70%', margin: 10, backgroundColor: 'rgba(0,0,0,0)'}}
+                theme={{
+                  colors: {
+                             placeholder: 'white', text: 'white', primary: '#0014cc',
+                             underlineColor: 'transparent', background: '#003489'
+                     }
+               }}
                 />
               </View>
               <View style={{flexDirection: 'row', width: 350, alignItems: 'center'}}>
-                <Icon name='phone' size={30} color='rgb(50,50,50)' />
+                <Icon name='phone' size={30} color='white' />
                 <PaperInput
                 label='Teléfono'
                 mode="flat"
                 value={inputPhone}
                 onChangeText={setInputPhone}
                 style={{height: 60, width: '50%', margin: 10, backgroundColor: 'rgba(0,0,0,0)'}}
+                theme={{
+                  colors: {
+                             placeholder: 'white', text: 'white', primary: '#0014cc',
+                             underlineColor: 'transparent', background: '#003489'
+                     }
+               }}
                 />
               </View>
             </View>
